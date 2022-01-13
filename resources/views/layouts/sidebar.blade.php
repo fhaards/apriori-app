@@ -24,7 +24,7 @@
             <span>Product</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('transactions.index')}}">
             <i class="fas fa-fw fa-money-bill-wave"></i>
             <span>Transaction</span></a>
     </li>

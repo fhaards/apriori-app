@@ -1,5 +1,3 @@
-
-
 var thisTablesUses = $("#table-products").DataTable({
     processing: true,
     serverside: true,

@@ -4,7 +4,7 @@
         <div class="modal-content">
             <form class="form-add-product" method="">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="productModalAddLabel">Add a product</h5>
+                    <h5 class="modal-title text-primary" id="productModalAddLabel">Add a product</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
