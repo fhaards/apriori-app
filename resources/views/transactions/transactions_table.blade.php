@@ -18,8 +18,8 @@
                             <th>Transaction Id</th>
                             <th>Customer Name </th>
                             <th>Date </th>
-                            <th>Qty Total </th>
-                            <th>Total </th>
+                            <th width="5">Qty(Total) </th>
+                            <th>Total Price</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -31,6 +31,7 @@
 
 @push('modal')
     @include('transactions.transactions_add')
+    @include('transactions.transactions_detail')
     {{-- @include('products.products_edit') --}}
 @endpush
 

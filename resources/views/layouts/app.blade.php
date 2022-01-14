@@ -22,17 +22,17 @@
 </head>
 
 <body id="page-top">
-    <div id="wrapper">
+    <div id="wrapper" class="">
         @guest
             @yield('content')
         @else
             @include('layouts.sidebar')
             <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content-wrapper" class="d-flex flex-column bg-white">
                 <div id="content">
                     @include('layouts.topbar')
                     <!-- Main Content -->
-                    <div class="container-fluid">
+                    <div class="container-fluid ">
                         @yield('content')
                     </div>
                 </div>
@@ -53,6 +53,10 @@
     <!-- Datatables -->
     <script src="{{ asset('assets/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Carts -->
+    <script src="{{ asset('assets/chart.js/Chart.min.js') }}"></script>
+
     <!-- Sweetalert -->
     <script src="{{ asset('assets/sweetalert2/sweetalert2.all.min.js') }}"></script>
     <script>

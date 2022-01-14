@@ -89,14 +89,17 @@ class TransactionsController extends Controller
 
         if (!$error) {
             for ($i = 0; $i < $productNumber; $i++) {
-                $productId  = $request->input("product_id_$i");
-                $productQty = $request->input("qty_product_$i");
-                $setQty   = (int)$productQty;
-                $countQty += $setQty;
+                $productId   = $request->input("product_id_$i");
+                $productQty  = $request->input("qty_product_$i");
+                $setQty      = (int)$productQty;
+                $countQty    += $setQty;
 
-                $getPrice = PRD::find($productId);
-                $getPrice = $getPrice->price;
-                $getSubTotal  = $countQty * $getPrice;
+                $getPrice    = PRD::find($productId);
+                $getPrice    = $getPrice->price;
+                $getSubTotal = $setQty * $getPrice;
+                
+                //for transaction main table
+                $totalPrice += $getSubTotal;
 
                 $inputTranslist = new TRSLIST;
                 $inputTranslist->transaction_id = $transID;
@@ -104,9 +107,6 @@ class TransactionsController extends Controller
                 $inputTranslist->subtotal_qty   = $productQty;
                 $inputTranslist->subtotal_price = $getSubTotal;
                 $inputTranslist->save();
-
-                //for transaction main table
-                $totalPrice += $getSubTotal;
             }
 
             $inputTrans = new TRS;
@@ -139,7 +139,46 @@ class TransactionsController extends Controller
 
     public function show($id)
     {
-        //
+        $findData = null;
+        $totalList = 0;
+        $data = [];
+        $data2 = [];
+
+        $findData     = TRS::where('transaction_id', $id)->get();
+        $findDataList = DB::table('transactions_lists as tr')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.product_id')
+            ->where('tr.transaction_id', '=', $id)
+            ->get();
+        $totalList   = TRSLIST::where('transaction_id',$id)->count();
+
+        foreach ($findData as $dt) :
+            $data[] = [
+                'transaction_id' => $dt->transaction_id,
+                'customer_name' => $dt->customer_name,
+                'total_qty' => $dt->total_qty,
+                'total_price' => 'Rp ' . number_format($dt->total_price, 0),
+                'created' => Carbon::parse($dt->created_at)->isoFormat('dddd, D MMMM Y'),
+            ];
+        endforeach;
+        
+        foreach ($findDataList as $dtlist) :
+            $data2[] = [
+                'product_id' => $dtlist->product_id,
+                'product_name' => $dtlist->name,
+                'product_brand' => $dtlist->brand,
+                'product_price' => 'Rp ' . number_format($dtlist->price, 0),
+                'subtotal_qty' => $dtlist->subtotal_qty,
+                'subtotal_price' => 'Rp ' . number_format($dtlist->subtotal_price, 0)
+            ];
+        endforeach;
+
+        $response = array(
+            'data' => $data,
+            'list' => $data2,
+            'list_total' => $totalList
+        );
+
+        return json_encode($response);
     }
 
 
@@ -157,6 +196,34 @@ class TransactionsController extends Controller
 
     public function destroy($id)
     {
-        //
+        $status = 200;
+        $message = null;
+        $error = false;
+        $data = [];
+        $defId = $id;
+
+        $transactions = TRS::find($defId);
+        $deleteTrans  = $transactions->delete();
+        if($deleteTrans){
+            $list = TRSLIST::where('transaction_id',$defId)->delete();
+            if ($list) {
+                $error = false;
+                $status = 200;
+                $message = 'Delete Success';
+            } else {
+                $error = false;
+                $status = 210;
+                $message = 'Ops, Something wrong';
+            }
+        }
+        
+        $resp = [
+            'status' => $status,
+            'message' => $message,
+            'data' => $data,
+            'errors' => $error,
+        ];
+        
+        return response()->json($resp, 200);
     }
 }

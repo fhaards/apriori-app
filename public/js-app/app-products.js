@@ -172,7 +172,8 @@ $("#table-products tbody").on("click", ".edit", function (e) {
 
 //PRODUCT DELETE
 
-$("#table-products tbody").on("click", ".delete", function () {
+$("#table-products tbody").on("click", ".delete", function (e) {
+    e.preventDefault();
     var productDeleteId = $(this).attr("product-id");
     Swal.fire({
         title: "Are you sure?",

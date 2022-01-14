@@ -23,13 +23,13 @@
                         <input type="text" name="brand" class="form-control product-brand">
                     </div>
                     <div class="form-group">
-                        <label for="inputAddress">Stock</label>
+                        <label for="inputAddress">Price</label>
                         <input type="number" name="price" class="form-control product-price"  min="0">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-pencil-alt fa-xs fa-fw"></i> Edit</button>
                 </div>
             </form>
         </div>
