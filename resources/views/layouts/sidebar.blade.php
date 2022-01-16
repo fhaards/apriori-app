@@ -1,4 +1,9 @@
-<ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+@php 
+   $currentUrl    = Request::segment(1); 
+   $currentUrlCls = 'bg-slate-700 ml-2 mr-3 rounded'; 
+@endphp
+
+<ul class="navbar-nav bg-primary sidebar sidebar-dark accordion font-weight-bold" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -9,21 +14,22 @@
     </a>
 
     <!-- Divider -->
-    <hr class="sidebar-divider my-0">
+    {{-- <hr class="sidebar-divider my-0"> --}}
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
+    <li class="nav-item {{$currentUrl == 'home' ? $currentUrlCls : ''}}">
         <a class="nav-link" href="{{ route('home') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>Dashboard</span>
+        </a>
     </li>
-    <hr class="sidebar-divider">
-    <li class="nav-item">
+    {{-- <hr class="sidebar-divider"> --}}
+    <li class="nav-item {{$currentUrl == 'products' ? $currentUrlCls : ''}}">
         <a class="nav-link" href="{{ route('products.index')}}">
             <i class="fas fa-fw fa-box"></i>
             <span>Product</span></a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item {{$currentUrl == 'transactions' ? $currentUrlCls : ''}}">
         <a class="nav-link" href="{{ route('transactions.index')}}">
             <i class="fas fa-fw fa-money-bill-wave"></i>
             <span>Transaction</span></a>

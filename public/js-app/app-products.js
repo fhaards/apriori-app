@@ -19,12 +19,25 @@ var thisTablesUses = $("#table-products").DataTable({
             targets: 6,
             render: function (data, type, row, meta) {
                 return (
-                    '<div class="d-flex justify-content-around">' +
-                    '<button class="btn btn-success btn-sm add-stock"' + '" product-id="' + row.product_id + '"/><i class="fas fa-plus fa-sm fa-fw"></i></button>' + 
-                    '<button class="btn btn-warning btn-sm edit"' + '" product-id="' + row.product_id + '" value="Edit"/><i class="fas fa-pencil-alt fa-sm fa-fw"></i></button>' + 
-                    '<button class="btn btn-danger btn-sm delete"' + '" product-id="' + row.product_id + '"/><i class="fas fa-trash fa-sm fa-fw"></i></button>' +
-                    '</div>'
+                '<div class="dropdown no-arrow text-right">'+
+                    '<button class="btn btn-sm btn-light rounded-full dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                        '<i class="fas fa-caret-down  fa-sm fa-fw text-gray-800"></i>'+
+                    '</button>'+
+                    '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">'+
+                        '<a type="button" class="dropdown-item text-success add-stock"' + '" product-id="' + row.product_id + '"/><i class="fas fa-plus fa-xs mr-1"></i> Change Stock</a>'+
+                        '<a type="button" class="dropdown-item text-warning edit"' + '" product-id="' + row.product_id + '" value="Edit"/><i class="fas fa-pencil-alt fa-xs mr-1"></i> Edit </a>'+
+                        '<div class="dropdown-divider"></div>'+
+                        '<a type="button" class="dropdown-item text-danger delete"' + '" product-id="' + row.product_id + '" value="Edit"/><i class="fas fa-trash fa-xs mr-1"></i> Delete </a>'+
+                    '</div>'+
+                '</div>'
                 );
+                // return (
+                //     '<div class="d-flex justify-content-around">' +
+                //     '<button class="btn btn-success btn-sm add-stock"' + '" product-id="' + row.product_id + '"/><i class="fas fa-plus fa-sm fa-fw"></i></button>' + 
+                //     '<button class="btn btn-warning btn-sm edit"' + '" product-id="' + row.product_id + '" value="Edit"/><i class="fas fa-pencil-alt fa-sm fa-fw"></i></button>' + 
+                //     '<button class="btn btn-danger btn-sm delete"' + '" product-id="' + row.product_id + '"/><i class="fas fa-trash fa-sm fa-fw"></i></button>' +
+                //     '</div>'
+                // );
             },
         },
     ],
@@ -177,7 +190,7 @@ $("#table-products tbody").on("click", ".delete", function (e) {
     var productDeleteId = $(this).attr("product-id");
     Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        text: productDeleteId+" , You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",

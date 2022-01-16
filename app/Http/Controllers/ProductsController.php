@@ -48,7 +48,7 @@ class ProductsController extends Controller
                     'brand' => $dt->brand,
                     'price' => 'Rp. ' . number_format($dt->price, 2),
                     'stock' => $dt->stock,
-                    'created' => $dt->created_at->isoFormat('dddd, D MMMM Y (H : mm)'),
+                    'created' => $dt->created_at->isoFormat('dddd, D/MM/Y'),
                 ];
             endforeach;
 

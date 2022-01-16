@@ -33,10 +33,11 @@
                             <table id="" class="detail-product-table table-boderdered table">
                                 <thead>
                                     <tr>
-                                        <th colspan="3"> Product List</th>
+                                        <th colspan="4"> Product List</th>
                                     </tr>
                                     <tr>
-                                        <th>Product Name</th>
+                                        <th>Product</th>
+                                        <th>Price</th>
                                         <th>Subtotal Qty</th>
                                         <th>Subtotal Price</th>
                                     </tr>
@@ -44,11 +45,11 @@
                                 <tbody></tbody>
                                 <tfoot>
                                     <tr class="bg-light text-dark">
-                                        <th colspan="2">Total Qty</th>
+                                        <th colspan="3">Total Qty</th>
                                         <th><span class="total-qty"></span></th>
                                     </tr>
                                     <tr class="bg-dark text-white">
-                                        <th colspan="2">Total</th>
+                                        <th colspan="3">Total</th>
                                         <th><span class="total-price"></span></th>
                                     </tr>
                                 </tfoot>

@@ -1,6 +1,44 @@
 loadProducts();
+var start_date;
+var end_date;
+var DateFilterFunction = function (oSettings, aData, iDataIndex) {
+  var dateStart = parseDateValue(start_date);
+  var dateEnd = parseDateValue(end_date);
+  //Kolom tanggal yang akan kita gunakan berada dalam urutan 2, karena dihitung mulai dari 0
+  //nama depan = 0
+  //nama belakang = 1
+  //tanggal terdaftar =2
+  var evalDate = parseDateValue(aData[2]);
+  if (
+    (isNaN(dateStart) && isNaN(dateEnd)) ||
+    (isNaN(dateStart) && evalDate <= dateEnd) ||
+    (dateStart <= evalDate && isNaN(dateEnd)) ||
+    (dateStart <= evalDate && evalDate <= dateEnd)
+  ) {
+    return true;
+  }
+  return false;
+};
 
-var thisTablesUses = $("#table-transactions").DataTable({
+// fungsi untuk converting format tanggal dd/mm/yyyy menjadi format tanggal javascript menggunakan zona aktubrowser
+function parseDateValue(rawDate) {
+    var dateArray = rawDate.split("/");
+    var parsedDate = new Date(
+      dateArray[2],
+      parseInt(dateArray[1]) - 1,
+      dateArray[0]
+    ); // -1 because months are from 0 to 11
+    return parsedDate;
+}
+
+var openFilterBtn  = $("#header-transaction").find(".open-filter");
+var openFilterMenu = $("#filter-transaction");
+openFilterBtn.on("click",function (e) {
+    e.preventDefault();
+    openFilterMenu.toggleClass("d-none");
+});
+
+var $thisTablesUses = $("#table-transactions").DataTable({
     processing: true,
     serverside: true,
     ajax: {
@@ -11,26 +49,72 @@ var thisTablesUses = $("#table-transactions").DataTable({
         { data: "transaction_id", name: "transaction_id" },
         { data: "customer_name", name: "customer_name" },
         { data: "created", name: "created" },
+        { data: "created_str", name: "created_str" },
         { data: "total_qty", name: "total_qty" },
         { data: "total_price", name: "total_price" },
         { data: " ", name: " " },
     ],
     columnDefs: [
         {
-            targets: 5,
+            targets : [2],
+            visible : false
+        },
+        {
+            targets: 6,
             render: function (data, type, row, meta) {
                 return (
-                    '<div class="d-flex justify-content-around">' +
-                    '<button class="btn btn-info btn-sm detail"' + '" transaction-id="' + row.transaction_id + '"/><i class="fas fa-eye fa-sm fa-fw"></i></button>' +
-                    // '<button class="btn btn-warning btn-sm edit"' + '" transaction-id="' + row.transaction_id + '"/><i class="fas fa-pencil-alt fa-sm fa-fw"></i></button>' +
-                    '<button class="btn btn-danger btn-sm delete"' + '" transaction-id="' + row.transaction_id + '"/><i class="fas fa-trash fa-sm fa-fw"></i></button>' +
+                    '<div class="dropdown no-arrow text-right">'+
+                        '<button class="btn btn-sm btn-light rounded-full dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                            '<i class="fas fa-caret-down fa-sm fa-fw text-gray-800"></i>'+
+                        '</button>'+
+                        '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">'+
+                            '<a type="button" href="javascript:void(0)" class="dropdown-item text-info detail"' + '" transaction-id="' + row.transaction_id + '"/><i class="fas fa-eye fa-xs mr-1"></i> Detail</a>'+
+                            '<div class="dropdown-divider"></div>'+
+                            '<a type="button" href="javascript:void(0)" class="dropdown-item text-danger delete"' + '" transaction-id="' + row.transaction_id + '" value="Edit"/><i class="fas fa-trash fa-xs mr-1"></i> Delete </a>'+
+                        '</div>'+
                     '</div>'
-                );
+                    );
+                // return (
+                    // '<div class="d-flex justify-content-around">' +
+                    // '<button class="btn btn-info btn-sm detail"' + '" transaction-id="' + row.transaction_id + '"/><i class="fas fa-eye fa-sm fa-fw"></i></button>' +
+                    // '<button class="btn btn-danger btn-sm delete"' + '" transaction-id="' + row.transaction_id + '"/><i class="fas fa-trash fa-sm fa-fw"></i></button>' +
+                    // '<button class="btn btn-warning btn-sm edit"' + '" transaction-id="' + row.transaction_id + '"/><i class="fas fa-pencil-alt fa-sm fa-fw"></i></button>' +
+                    // '</div>'
+                // );
             },
         },
     ],
     order: [[0, "desc"]],
-    pageLength: 5,
+    pageLength: 10,
+});
+
+var filterTransFrom = openFilterMenu.find(".filter-trans-from");
+filterTransFrom.on("change", function(e) {
+    e.preventDefault()
+    var filterFrom = $(this).val().toString();
+});
+
+$("#datesearch").daterangepicker({
+    autoUpdateInput: false,
+  });
+
+$("#datesearch").on("apply.daterangepicker", function (ev, picker) {
+    $(this).val(picker.startDate.format("DD/MM/YYYY") + " - " + picker.endDate.format("DD/MM/YYYY"));
+    start_date = picker.startDate.format("DD/MM/YYYY");
+    end_date = picker.endDate.format("DD/MM/YYYY");
+    console.log(start_date+end_date);
+    $.fn.dataTableExt.afnFiltering.push(DateFilterFunction);
+    $thisTablesUses.draw();
+});
+
+$("#datesearch").on("cancel.daterangepicker", function (ev, picker) {
+    $(this).val("");
+    start_date = "";
+    end_date = "";
+    $.fn.dataTable.ext.search.splice(
+      $.fn.dataTable.ext.search.indexOf(DateFilterFunction, 1)
+    );
+    $thisTablesUses.draw();
 });
 
 // LOAD PRODUCTS
@@ -193,6 +277,7 @@ $("#table-transactions tbody").on("click", ".detail", function (e) {
             for (let i = 0; i < response.list_total; i++) {
                 htmlDetProd += '<tr>';
                 htmlDetProd += '<td>'+response.list[i].product_name+'</td>';
+                htmlDetProd += '<td>'+response.list[i].product_price+'</td>';
                 htmlDetProd += '<td>'+response.list[i].subtotal_qty+'</td>';
                 htmlDetProd += '<td>'+response.list[i].subtotal_price+'</td>';
                 htmlDetProd += '</tr>';

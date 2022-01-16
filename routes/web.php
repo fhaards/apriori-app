@@ -5,16 +5,6 @@ use App\Http\Controllers\TransactionsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('auth.login');
@@ -36,4 +26,10 @@ Route::group(['middleware' => 'auth'], function () {
     |--------------------------------------------------------------------------*/
     Route::resource('transactions', TransactionsController::class);
     Route::get('transactions/data/all', [App\Http\Controllers\TransactionsController::class, 'showAll']);
+
+    /*--------------------------------------------------------------------------
+    | Counting, Chart & Etc
+    |--------------------------------------------------------------------------*/
+    Route::get('count/revenue-sources', [App\Http\Controllers\CountController::class, 'revenueSource']);
+    Route::get('count/earnings-overview', [App\Http\Controllers\CountController::class, 'earningsOverview']);
 });

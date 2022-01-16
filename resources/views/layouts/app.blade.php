@@ -17,8 +17,10 @@
     <!-- Styles -->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/sweetalert2/sweetalert2.material-ui.min.css') }}" media="all" rel="stylesheet"
-        type="text/css" />
+    <link href="{{ asset('assets/sweetalert2/sweetalert2.material-ui.min.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/daterangepicker.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <!-- Custom -->
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -28,11 +30,11 @@
         @else
             @include('layouts.sidebar')
             <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column bg-white">
+            <div id="content-wrapper" class="d-flex flex-column bg-white px-0">
                 <div id="content">
                     @include('layouts.topbar')
                     <!-- Main Content -->
-                    <div class="container-fluid ">
+                    <div class="container-fluid py-0 py-5" style="max-height: 90vh;overflow-y:auto;">
                         @yield('content')
                     </div>
                 </div>
@@ -50,10 +52,11 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
     <!-- Scripts -->
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/daterangepicker.js') }}"></script>
     <!-- Datatables -->
     <script src="{{ asset('assets/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/dataTables.bootstrap4.min.js') }}"></script>
-
     <!-- Carts -->
     <script src="{{ asset('assets/chart.js/Chart.min.js') }}"></script>
 

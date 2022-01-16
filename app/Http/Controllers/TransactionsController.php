@@ -33,21 +33,33 @@ class TransactionsController extends Controller
         $findData = null;
         $data = [];
 
+        // FILTERED
+        // $fillMonth    = $request->get('month');
+        $getFilterFrom = $request->get('filRangeFrom');
+        $filRangeFrom  = date('Y-m-d', $getFilterFrom);
+        $filRangeTo    = date('2022-01-20');
 
         // DRAW TABLE
         $draw       = $request->input('draw');
-        $dateFilter = $request->get('date');
         $limit      = ($request->get('limit') ? $request->get('limit')  : 100);
+        // $dateFilter = $request->get('date');
 
         // GET DATA FROM DATABASE
-        $findData = TRS::latest()->paginate($limit);
+        // $findData = $findData->whereMonth('created_at','=', $fillMonth);
+        $findData = TRS::query();
+        if (!is_null($getFilterFrom)) {
+            $findData = $findData->whereBetween('created_at', [$filRangeFrom, $filRangeTo]);
+        }
+
+        $findData = $findData->latest()->paginate($limit);
         if ($findData->total() > 0) {
             foreach ($findData as $dt) :
                 $data[] = [
                     'transaction_id' => $dt->transaction_id,
                     'customer_name' => $dt->customer_name,
                     // 'created'        => Carbon::parse($dt->created_at)->isoFormat('dddd, D MMMM Y (H : mm)'),
-                    'created'        => Carbon::parse($dt->created_at)->isoFormat('dddd, D MMMM Y'),
+                    'created'        => date('d/m/Y', strtotime($dt->created_at)),
+                    'created_str'    => Carbon::parse($dt->created_at)->isoFormat('dddd, DD - MM - Y'),
                     'total_qty'      => $dt->total_qty,
                     'total_price'    => 'Rp. ' . number_format($dt->total_price, 2)
                 ];
@@ -97,7 +109,7 @@ class TransactionsController extends Controller
                 $getPrice    = PRD::find($productId);
                 $getPrice    = $getPrice->price;
                 $getSubTotal = $setQty * $getPrice;
-                
+
                 //for transaction main table
                 $totalPrice += $getSubTotal;
 
@@ -149,7 +161,7 @@ class TransactionsController extends Controller
             ->join('products as prd', 'tr.product_id', '=', 'prd.product_id')
             ->where('tr.transaction_id', '=', $id)
             ->get();
-        $totalList   = TRSLIST::where('transaction_id',$id)->count();
+        $totalList   = TRSLIST::where('transaction_id', $id)->count();
 
         foreach ($findData as $dt) :
             $data[] = [
@@ -160,7 +172,7 @@ class TransactionsController extends Controller
                 'created' => Carbon::parse($dt->created_at)->isoFormat('dddd, D MMMM Y'),
             ];
         endforeach;
-        
+
         foreach ($findDataList as $dtlist) :
             $data2[] = [
                 'product_id' => $dtlist->product_id,
@@ -204,8 +216,8 @@ class TransactionsController extends Controller
 
         $transactions = TRS::find($defId);
         $deleteTrans  = $transactions->delete();
-        if($deleteTrans){
-            $list = TRSLIST::where('transaction_id',$defId)->delete();
+        if ($deleteTrans) {
+            $list = TRSLIST::where('transaction_id', $defId)->delete();
             if ($list) {
                 $error = false;
                 $status = 200;
@@ -216,14 +228,14 @@ class TransactionsController extends Controller
                 $message = 'Ops, Something wrong';
             }
         }
-        
+
         $resp = [
             'status' => $status,
             'message' => $message,
             'data' => $data,
             'errors' => $error,
         ];
-        
+
         return response()->json($resp, 200);
     }
 }
