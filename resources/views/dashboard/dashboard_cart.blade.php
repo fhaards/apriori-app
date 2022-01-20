@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row row-eq-height two-sections">
     <!-- Area Chart -->
-    <div class="col-xl-8 col-lg-7">
+    <div class="col-xl-8 col-lg-7 align-self-stretch">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Pie Chart -->
-    <div class="col-xl-4 col-lg-5" id="pie-chart-dashboard">
+    <div class="col-xl-4 col-lg-5 align-self-stretch" id="pie-chart-dashboard">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -49,7 +49,7 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-pie p-5">
+                <div class="chart-pie pt-5 pb-5 mb-4">
                     <canvas id="myPieChart"></canvas>
                 </div>
                 <div class="mt-1 small text-center">

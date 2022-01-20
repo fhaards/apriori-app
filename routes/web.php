@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\AprioriController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,11 @@ Route::group(['middleware' => 'auth'], function () {
     |--------------------------------------------------------------------------*/
     Route::resource('transactions', TransactionsController::class);
     Route::get('transactions/data/all', [App\Http\Controllers\TransactionsController::class, 'showAll']);
+
+    /*--------------------------------------------------------------------------
+    | Apriori Routes
+    |--------------------------------------------------------------------------*/
+    Route::resource('apriori', AprioriController::class);
 
     /*--------------------------------------------------------------------------
     | Counting, Chart & Etc

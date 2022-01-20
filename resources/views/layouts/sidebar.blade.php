@@ -1,9 +1,10 @@
 @php 
    $currentUrl    = Request::segment(1); 
-   $currentUrlCls = 'bg-slate-700 ml-2 mr-3 rounded'; 
+//    $currentUrlCls = 'bg-slate-700 rounded-xl'; 
+   $currentUrlCls = ' active '; 
 @endphp
 
-<ul class="navbar-nav bg-primary sidebar sidebar-dark accordion font-weight-bold" id="accordionSidebar">
+<ul class="navbar-nav bg-blue-500 sidebar sidebar-dark accordion font-weight-bold toggled" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -17,26 +18,30 @@
     {{-- <hr class="sidebar-divider my-0"> --}}
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{$currentUrl == 'home' ? $currentUrlCls : ''}}">
+    <li class="nav-item {{$currentUrl == 'home' ? $currentUrlCls : ''}}"   
+        data-toggle="tooltip" data-placement="right" title="Home">
         <a class="nav-link" href="{{ route('home') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
     </li>
     {{-- <hr class="sidebar-divider"> --}}
-    <li class="nav-item {{$currentUrl == 'products' ? $currentUrlCls : ''}}">
+    <li class="nav-item {{$currentUrl == 'products' ? $currentUrlCls : ''}}"
+        data-toggle="tooltip" data-placement="right" title="Products">
         <a class="nav-link" href="{{ route('products.index')}}">
             <i class="fas fa-fw fa-box"></i>
             <span>Product</span></a>
     </li>
-    <li class="nav-item {{$currentUrl == 'transactions' ? $currentUrlCls : ''}}">
+    <li class="nav-item {{$currentUrl == 'transactions' ? $currentUrlCls : ''}}"
+        data-toggle="tooltip" data-placement="right" title="Transactions">
         <a class="nav-link" href="{{ route('transactions.index')}}">
             <i class="fas fa-fw fa-money-bill-wave"></i>
             <span>Transaction</span></a>
     </li>
     <hr class="sidebar-divider">
-    <li class="nav-item">
-        <a class="nav-link" href="#">
+    <li class="nav-item {{$currentUrl == 'apriori' ? $currentUrlCls : ''}}"
+        data-toggle="tooltip" data-placement="right" title="Apriori Analytics">
+        <a class="nav-link" href="{{ route('apriori.index') }}">
             <i class="fas fa-fw fa-chart-bar"></i>
             <span>Apriori Analytics</span></a>
     </li>

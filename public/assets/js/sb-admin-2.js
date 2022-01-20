@@ -1,7 +1,10 @@
 (function($) {
   "use strict"; // Start of use strict
 
+  
   // Toggle the side navigation
+  $('[data-toggle="tooltip"]').tooltip();
+
   $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
     $("body").toggleClass("sidebar-toggled");
     $(".sidebar").toggleClass("toggled");
@@ -15,7 +18,7 @@
     if ($(window).width() < 768) {
       $('.sidebar .collapse').collapse('hide');
     };
-    
+
     // Toggle the side navigation when window is resized below 480px
     if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
       $("body").addClass("sidebar-toggled");

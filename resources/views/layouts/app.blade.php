@@ -15,12 +15,13 @@
         rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/sweetalert2/sweetalert2.material-ui.min.css') }}" media="all" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/daterangepicker.css') }}" media="all" rel="stylesheet" type="text/css" />
     <!-- Custom -->
-    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom-color.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom-style.css') }}" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -34,7 +35,7 @@
                 <div id="content">
                     @include('layouts.topbar')
                     <!-- Main Content -->
-                    <div class="container-fluid py-0 py-5" style="max-height: 90vh;overflow-y:auto;">
+                    <div class="container-fluid py-0 py-5 main-contents" >
                         @yield('content')
                     </div>
                 </div>
@@ -50,7 +51,7 @@
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('assets/jquery-easing/jquery.easing.min.js') }}"></script>
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>
     <!-- Scripts -->
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/daterangepicker.js') }}"></script>
