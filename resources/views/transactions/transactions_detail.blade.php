@@ -2,7 +2,7 @@
     aria-labelledby="transactionDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg " role="document">
         <div class="modal-content">
-            <form class="form-add-transactions" method="">
+            <div class="form-detail-transactions" method="">
                 <div class="modal-header d-flex">
                     <h5 class="modal-title text-primary" id="transactionDetailModalLabel">
                         Transaction Detail
@@ -12,30 +12,38 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-row border border-primary mb-3 mx-1 px-3 rounded bg-light  text-dark align-items-center d-flex px-2 py-2">
-                        <strong><span>Transaction ID :</span></strong>
-                        <span class="transaction-id ml-sm-3"></span>
+                    <div class="d-flex flex-row justify-content-between bg-slate-100 rounded-xl align-items-center mx-0 py-3 px-3 mb-3">
+                        <div class="d-flex flex-md-row flex-column">
+                            <span class="">Transaction ID :</span>
+                            <span class="transaction-id ml-sm-3 text-dark font-weight-bold"></span>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-sm btn-primary print-transaction">
+                                <i class="fa fa-print"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="form-row border border-primary mb-3 mx-1 rounded py-2 px-3">
-                        <div class="col-sm-8 d-flex flex-column text-dark ">
-                            <strong><span>Customer Name</span></strong>
-                            <p class="transaction-name"></p>
+                    <div class="form-row bg-slate-100 rounded-xl align-items-center mx-0 py-3 px-3 mb-3">
+                        <div class="col-sm-8 d-flex flex-column text-dark">
+                            <span>Customer Name</span>
+                            <p class="mb-0 pb-0 transaction-name text-dark font-weight-bold"></p>
                         </div>
-                        <div class="col-sm-4 d-flex flex-column text-dark ">
-                            <strong><span>Total Product</span></strong>
-                            <p class="transaction-prodnumber"></p>
+                        <div class="col-sm-4 d-flex flex-column text-dark">
+                            <span>Total Product</span>
+                            <p class="mb-0 pb-0 transaction-prodnumber text-dark font-weight-bold"></p>
                         </div>
+                    </div>
+                    <div>
+                        <h5 class="text-primary mb-3 border-top pt-4 pb-2"> Product List</h5>
                     </div>
 
                     <div class="mx-0" style="max-height: 400px;overflow-x: hidden;overflow-y: scroll;">
                         <div class="table-responsive">
-                            <table id="" class="detail-product-table table-boderdered table">
+                            <table id="" class="detail-product-table table-striped table-boderdered table">
                                 <thead>
                                     <tr>
-                                        <th colspan="4"> Product List</th>
-                                    </tr>
-                                    <tr>
+                                        <th width="2%">No</th>
                                         <th>Product</th>
                                         <th>Price</th>
                                         <th>Subtotal Qty</th>
@@ -44,12 +52,12 @@
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
-                                    <tr class="bg-light text-dark">
-                                        <th colspan="3">Total Qty</th>
+                                    <tr class="bg-slate-500 text-white font-weight-bold">
+                                        <th colspan="4">Total Qty</th>
                                         <th><span class="total-qty"></span></th>
                                     </tr>
-                                    <tr class="bg-dark text-white">
-                                        <th colspan="3">Total</th>
+                                    <tr class="bg-slate-600 text-white font-weight-bold">
+                                        <th colspan="4">Total</th>
                                         <th><span class="total-price"></span></th>
                                     </tr>
                                 </tfoot>
@@ -58,9 +66,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-light btn-sm" type="button" data-dismiss="modal">Cancel</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

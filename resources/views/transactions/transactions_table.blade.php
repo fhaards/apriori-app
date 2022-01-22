@@ -37,9 +37,9 @@
                         <tr>
                             <th>Transaction Id</th>
                             <th>Customer Name </th>
-                            <th>Date </th>
-                            <th>Date</th>
-                            <th width="5">Qty(Total) </th>
+                            <th>Date Fake</th>
+                            <th width="20%">Date Created</th>
+                            <th width="5%">Qty</th>
                             <th>Total Price</th>
                             <th></th>
                         </tr>
@@ -51,11 +51,11 @@
 @endsection
 
 @push('modal')
-    @include('transactions.transactions_add')
+   
     @include('transactions.transactions_detail')
     {{-- @include('products.products_edit') --}}
 @endpush
 
 @push('js-app')
-    <script src="{{ asset('js-app/app-transaction.js') }}"></script>
+    
 @endpush

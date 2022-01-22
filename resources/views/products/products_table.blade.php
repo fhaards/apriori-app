@@ -20,7 +20,8 @@
                             <th>Brand</th>
                             <th>Price</th>
                             <th>Stock</th>
-                            <th>Created</th>
+                            <th>Date Fake</th>
+                            <th>Date Created</th>
                             <th></th>
                         </tr>
                     </thead>

@@ -56,16 +56,34 @@ var $thisTablesUses = $("#table-transactions").DataTable({
     ],
     columnDefs: [
         {
-            targets : [2],
+            targets : 0,
+            render: function (data, type, row, meta) {
+                return (
+                    '<a href="javascript:void(0)" class="detail font-weight-bold text-decoration-none"' + '" transaction-id="' + row.transaction_id + '"/>'+row.transaction_id+'</a>'
+                    );
+            },
+        },
+        {
+            targets : 2,
             visible : false
         },
         {
+            targets : 3,
+            render: function (data, type, row, meta) {
+                return (
+                    '<span class="d-none">'+row.created_at_full+'</span> '+
+                    '<span class="">'+row.created_str+'</span>'
+                );
+            },
+        },
+        {
             targets: 6,
+            orderable: false,
             render: function (data, type, row, meta) {
                 return (
                     '<div class="dropdown no-arrow text-right">'+
-                        '<button class="btn btn-sm btn-light rounded-full dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-                            '<i class="fas fa-caret-down fa-sm fa-fw text-gray-800"></i>'+
+                        '<button class="btn btn-sm bg-slate-600 rounded-lg dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                            '<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-100"></i>'+
                         '</button>'+
                         '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">'+
                             '<a type="button" href="javascript:void(0)" class="dropdown-item text-info detail"' + '" transaction-id="' + row.transaction_id + '"/><i class="fas fa-eye fa-xs mr-1"></i> Detail</a>'+
@@ -84,7 +102,7 @@ var $thisTablesUses = $("#table-transactions").DataTable({
             },
         },
     ],
-    order: [[0, "desc"]],
+    order: [[3, "desc"]],
     pageLength: 10,
 });
 
@@ -102,7 +120,7 @@ $("#datesearch").on("apply.daterangepicker", function (ev, picker) {
     $(this).val(picker.startDate.format("DD/MM/YYYY") + " - " + picker.endDate.format("DD/MM/YYYY"));
     start_date = picker.startDate.format("DD/MM/YYYY");
     end_date = picker.endDate.format("DD/MM/YYYY");
-    console.log(start_date+end_date);
+    // console.log(start_date+end_date);
     $.fn.dataTableExt.afnFiltering.push(DateFilterFunction);
     $thisTablesUses.draw();
 });
@@ -252,38 +270,42 @@ $("#table-transactions tbody").on("click", ".detail", function (e) {
     // DEFINE THE MODAL
     var transDetModal = $("#transactionDetailModal");
     transDetModal.modal("show");
+    
 
     // DECLARE JSON
-    var trId       = transDetModal.find('.transaction-id');
-    var trName     = transDetModal.find('.transaction-name');
-    var trPrdN     = transDetModal.find('.transaction-prodnumber');
-    var detailProd = transDetModal.find('.detail-product-table tbody');
+    var trId        = transDetModal.find('.transaction-id');
+    var trName      = transDetModal.find('.transaction-name');
+    var trPrdN      = transDetModal.find('.transaction-prodnumber');
+    var detailProd  = transDetModal.find('.detail-product-table tbody');
     var htmlDetProd = "";
-    var trTotalQty = transDetModal.find('.total-qty');
-    var trTotalAll = transDetModal.find('.total-price');
-
+    var trTotalQty  = transDetModal.find('.total-qty');
+    var trTotalAll  = transDetModal.find('.total-price');
+    var printId     = transDetModal.find('.print-transaction');
     $.ajax({
         type: "GET",
         url: WEB_URL + "/" + getTrId,
         dataType: "JSON",
         success: function (response) {
-            console.log(response);
+            // console.log(response);
+            printId.attr("idprint",response.data[0].transaction_id);
             trId.html(response.data[0].transaction_id);
             trTotalQty.html(response.data[0].total_qty);
             trTotalAll.html(response.data[0].total_price);
             trName.html(response.data[0].customer_name);
             trPrdN.html(response.list_total);
-
+            var numbProd = 1;
             for (let i = 0; i < response.list_total; i++) {
                 htmlDetProd += '<tr>';
+                htmlDetProd += '<td>'+numbProd+'</td>';
                 htmlDetProd += '<td>'+response.list[i].product_name+'</td>';
                 htmlDetProd += '<td>'+response.list[i].product_price+'</td>';
                 htmlDetProd += '<td>'+response.list[i].subtotal_qty+'</td>';
                 htmlDetProd += '<td>'+response.list[i].subtotal_price+'</td>';
                 htmlDetProd += '</tr>';
                 detailProd.html(htmlDetProd);
+                numbProd++;
             }
-          
+            // printTransaction(printId);
         },
         error: function (response) {
             console.log(response.message);
@@ -356,6 +378,15 @@ $("#table-transactions tbody").on("click", ".delete", function (e) {
         }
     });
 });
+
+//TRANSACTION PRINT
+$("#transactionDetailModal .print-transaction").on("click",function(e){
+    e.preventDefault();
+    var printId  = $(this).attr("idprint");
+    var urlPrint = WEB_URL +'/'+ printId +'/print-invoice';
+    return window.open(urlPrint, '_blank');
+});
+
 
 
 //TRANSACTION EDIT

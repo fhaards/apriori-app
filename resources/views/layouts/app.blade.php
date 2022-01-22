@@ -17,8 +17,10 @@
     <!-- Styles -->
     <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/sweetalert2/sweetalert2.material-ui.min.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/sweetalert2/sweetalert2.material-ui.min.css') }}" media="all" rel="stylesheet"
+        type="text/css" />
     <link href="{{ asset('assets/css/daterangepicker.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/aos-master/dist/aos.css') }}" media="all" rel="stylesheet" type="text/css" />
     <!-- Custom -->
     <link href="{{ asset('assets/css/custom-color.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/custom-style.css') }}" rel="stylesheet">
@@ -31,18 +33,18 @@
         @else
             @include('layouts.sidebar')
             <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column bg-white px-0">
+            <div id="content-wrapper" class="d-flex flex-column bg-slate-50 px-0">
                 <div id="content">
                     @include('layouts.topbar')
                     <!-- Main Content -->
-                    <div class="container-fluid py-0 py-5 main-contents" >
+                    <div class="container-fluid py-0 py-5 main-contents">
                         @yield('content')
                     </div>
                 </div>
             </div>
         @endguest
     </div>
-
+    @include('transactions.transactions_add')
     @stack('modal')
 
     <!-- Bootstrap core JavaScript-->
@@ -63,7 +65,11 @@
 
     <!-- Sweetalert -->
     <script src="{{ asset('assets/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    {{-- Aos Animate Master --}}
+    <script src="{{ asset('assets/aos-master/dist/aos.js') }}" type="text/javascript"></script>
+
     <script>
+        AOS.init();
         var APP_URL = {!! json_encode(url('/')) !!}
         var url = $(location).attr('href'),
             parts = url.split("/"),
@@ -79,6 +85,7 @@
         // });
     </script>
     @stack('js-app')
+    <script src="{{ asset('js-app/app-transaction.js') }}"></script>
 </body>
 
 </html>

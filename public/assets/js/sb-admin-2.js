@@ -12,6 +12,10 @@
       $('.sidebar .collapse').collapse('hide');
     };
   });
+  if ($(window).width() > 1024) {
+    $(".sidebar").removeClass("toggled");
+  };
+
 
   // Close any open menu accordions when window is resized below 768px
   $(window).resize(function() {
@@ -57,3 +61,4 @@
   });
 
 })(jQuery); // End of use strict
+

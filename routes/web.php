@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
     |--------------------------------------------------------------------------*/
     Route::resource('transactions', TransactionsController::class);
     Route::get('transactions/data/all', [App\Http\Controllers\TransactionsController::class, 'showAll']);
+    Route::get('transactions/{transactions}/print-invoice', [App\Http\Controllers\TransactionsController::class, 'printInvoice']);
 
     /*--------------------------------------------------------------------------
     | Apriori Routes

@@ -10,6 +10,7 @@ use App\Models\transactions_list as TRSLIST;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Helpers\GlobalHelpers as GLBHelp;
+use PDF;
 
 class TransactionsController extends Controller
 {
@@ -50,8 +51,7 @@ class TransactionsController extends Controller
         if (!is_null($getFilterFrom)) {
             $findData = $findData->whereBetween('created_at', [$filRangeFrom, $filRangeTo]);
         }
-
-        $findData = $findData->latest()->paginate($limit);
+        $findData = $findData->paginate($limit);
         if ($findData->total() > 0) {
             foreach ($findData as $dt) :
                 $data[] = [
@@ -59,7 +59,9 @@ class TransactionsController extends Controller
                     'customer_name' => $dt->customer_name,
                     // 'created'        => Carbon::parse($dt->created_at)->isoFormat('dddd, D MMMM Y (H : mm)'),
                     'created'        => date('d/m/Y', strtotime($dt->created_at)),
-                    'created_str'    => Carbon::parse($dt->created_at)->isoFormat('dddd, DD - MM - Y'),
+                    'created_at_full'        => date('d/m/Y H:i:s', strtotime($dt->created_at)),
+                    // 'created_str'    => date('d/m/Y', strtotime($dt->created_at)),
+                    'created_str'    => Carbon::parse($dt->created_at)->isoFormat('dddd, DD - MMMM - Y'),
                     'total_qty'      => $dt->total_qty,
                     'total_price'    => 'Rp. ' . number_format($dt->total_price, 2)
                 ];
@@ -95,7 +97,78 @@ class TransactionsController extends Controller
         $totalPrice = 0;
 
         //CREATE PRODUCT ID
-        $transID = GLBHelp::getRandId();
+        $transID       = 'TR-' . GLBHelp::getRandId();
+        $transCustName = $request->input('customer_name');
+        $productNumber = $request->input('product_number');
+
+        if (!$error) {
+            for ($i = 0; $i < $productNumber; $i++) {
+                $productId   = $request->input("product_id_$i");
+                $productQty  = $request->input("qty_product_$i");
+                $setQty      = (int)$productQty;
+                $countQty    += $setQty;
+
+                $getPrice    = PRD::find($productId);
+                $getPrice    = $getPrice->price;
+                $getSubTotal = $setQty * $getPrice;
+
+                //for transaction main table
+                $totalPrice += $getSubTotal;
+
+                $inputTranslist = new TRSLIST;
+                $inputTranslist->transaction_id = $transID;
+                $inputTranslist->product_id     = $productId;
+                $inputTranslist->subtotal_qty   = $productQty;
+                $inputTranslist->subtotal_price = $getSubTotal;
+                $inputTranslist->save();
+
+                $getProducts = PRD::where('product_id', $productId)->first();
+                $getQtyPrd   = $getProducts->stock;
+                $minQtyPrd   = $getQtyPrd - $setQty;
+                if ($getProducts == true) {
+                    $getProducts->stock = (int)$minQtyPrd;
+                    $getProducts->save();
+                }
+            }
+
+            $inputTrans = new TRS;
+            $inputTrans->transaction_id = $transID;
+            $inputTrans->customer_name  = $transCustName;
+            $inputTrans->total_qty      = $countQty;
+            $inputTrans->total_price    = $totalPrice;
+            $insert = $inputTrans->save();
+            if ($insert) {
+                $error = false;
+                $status = 200;
+                $message = 'Input Data Success';
+            } else {
+                $error = false;
+                $status = 210;
+                $message = 'Ops, Something Wrong when Input Data';
+            }
+        }
+
+        $resp = [
+            'status' => $status,
+            'message' => $message,
+            'data' => $data,
+            'errors' => $error,
+        ];
+
+        return response()->json($resp, 200);
+    }
+
+    public function storeBackups(Request $request)
+    {
+        $status = 200;
+        $message = null;
+        $error = false;
+        $data = [];
+        $countQty = 0;
+        $totalPrice = 0;
+
+        //CREATE PRODUCT ID
+        $transID       = 'TR-' . GLBHelp::getRandId();
         $transCustName = $request->input('customer_name');
         $productNumber = $request->input('product_number');
 
@@ -205,6 +278,21 @@ class TransactionsController extends Controller
         //
     }
 
+    public function printInvoice(Request $request, $id)
+    {
+        $findData = null;
+        $findDataList = DB::table('transactions_lists as tr')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.product_id')
+            ->where('tr.transaction_id', '=', $id);
+
+        $data = [];
+        $data['user'] = Auth::user();
+        $data['headerpages'] = 'INVOICE-DOCUMENT';
+        $data['transaction'] = TRS::where('transaction_id', $id)->first();
+        $data['transaction_list'] = $findDataList->get();
+        $pdf = PDF::loadview('transactions.transactions_print', $data);
+        return $pdf->stream('Invoice-' . $id . '.pdf');
+    }
 
     public function destroy($id)
     {

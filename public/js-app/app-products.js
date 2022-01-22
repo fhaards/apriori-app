@@ -12,16 +12,31 @@ var thisTablesUses = $("#table-products").DataTable({
         { data: "price", name: "price" },
         { data: "stock", name: "stock" },
         { data: "created", name: "created" },
+        { data: "created_str", name: "created_str" },
         { data: " ", name: " " },
     ],
     columnDefs: [
         {
-            targets: 6,
+            targets : 5,
+            visible : false
+        },
+        {
+            targets : 6,
+            render: function (data, type, row, meta) {
+                return (
+                    '<span class="d-none">'+row.created+'</span>'+
+                    '<span class="">'+row.created_str+'</span>'
+                );
+            },
+        },
+        {
+            targets: 7,
+            orderable: false,
             render: function (data, type, row, meta) {
                 return (
                 '<div class="dropdown no-arrow text-right">'+
-                    '<button class="btn btn-sm btn-light rounded-full dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-                        '<i class="fas fa-caret-down  fa-sm fa-fw text-gray-800"></i>'+
+                    '<button class="btn btn-sm bg-slate-600 rounded-lg dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                        '<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-100"></i>'+
                     '</button>'+
                     '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">'+
                         '<a type="button" class="dropdown-item text-success add-stock"' + '" product-id="' + row.product_id + '"/><i class="fas fa-plus fa-xs mr-1"></i> Change Stock</a>'+
@@ -41,7 +56,7 @@ var thisTablesUses = $("#table-products").DataTable({
             },
         },
     ],
-    order: [[0, "desc"]],
+    order: [[5, "desc"]],
     pageLength: 5,
 });
 

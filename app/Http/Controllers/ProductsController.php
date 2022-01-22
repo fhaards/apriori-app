@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Products as PRD;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Helpers\GlobalHelpers as GLBH;
+use Illuminate\Support\Carbon;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -48,7 +50,8 @@ class ProductsController extends Controller
                     'brand' => $dt->brand,
                     'price' => 'Rp. ' . number_format($dt->price, 2),
                     'stock' => $dt->stock,
-                    'created' => $dt->created_at->isoFormat('dddd, D/MM/Y'),
+                    'created' => date('d/m/Y H:i:s', strtotime($dt->created_at)),
+                    'created_str' => Carbon::parse($dt->created_at)->isoFormat('dddd, DD / MM / Y'),
                 ];
             endforeach;
 
@@ -85,12 +88,10 @@ class ProductsController extends Controller
         $productBrand = $request->input('brand');
 
         //CREATE PRODUCT ID
-        $rNmbr1 = substr($productName, 0, 3);
-        $rNmbr2 = substr($productBrand, 0, 3);
-        $rNmbr3 = strtoupper($rNmbr1 . $rNmbr2);
-        $rNmbr4 = rand(10, 99);
-        $rNmbr5 = date('ymdHis');
-        $productId =  $rNmbr3 . $rNmbr4 . $rNmbr5;
+        $getUnique1 = GLBH::geneName($productName, $productBrand);
+        $getUnique2 = GLBH::geneRandString();
+        $getUnique3 = date('ymdHis');
+        $productId = $getUnique1 . $getUnique2 . $getUnique3;
 
         if (!$error) {
             $inputProducts = new PRD;
@@ -133,7 +134,7 @@ class ProductsController extends Controller
 
         // GET DATA FROM DATABASE
         $findData = PRD::where('product_id', $id)->get();
-        foreach ($findData as $dt):
+        foreach ($findData as $dt) :
             $data[] = [
                 'product_id' => $dt->product_id,
                 'name' => $dt->name,

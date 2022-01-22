@@ -2,3 +2,7 @@
     max-height: 90vh;
     overflow-y: auto;
 }
+
+.dataTables_wrapper .row{
+    margin:0rem 0rem 2rem 0rem !important;
+}
