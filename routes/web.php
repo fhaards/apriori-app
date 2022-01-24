@@ -33,11 +33,12 @@ Route::group(['middleware' => 'auth'], function () {
     | Apriori Routes
     |--------------------------------------------------------------------------*/
     Route::resource('apriori-analysis', AprioriController::class);
-    Route::get('apriori-analysis/combine/test', [App\Http\Controllers\AprioriController::class, 'combineTest']);
+    // Route::get('apriori-analysis/combine/test', [App\Http\Controllers\AprioriController::class, 'combineTest']);
     Route::get('apriori-analysis/combine/test2', [App\Http\Controllers\AprioriController::class, 'combineTest2']);
     Route::get('apriori-analysis/combine/test3', [App\Http\Controllers\AprioriController::class, 'combineTest3']);
-    Route::get('apriori-analysis/combine/test4', [App\Http\Controllers\AprioriController::class, 'combineTest4']);
-    Route::get('apriori-analysis/combine/test5', [App\Http\Controllers\AprioriController::class, 'combineTest5']);
+    // Route::get('apriori-analysis/combine/test4', [App\Http\Controllers\AprioriController::class, 'combineTest4']);
+    // Route::get('apriori-analysis/combine/test5', [App\Http\Controllers\AprioriController::class, 'combineTest5']);
+    // Route::get('apriori-analysis/combine/test6', [App\Http\Controllers\AprioriController::class, 'combineTest6']);
 
     /*--------------------------------------------------------------------------
     | Counting, Chart & Etc
