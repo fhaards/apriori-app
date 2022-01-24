@@ -1,7 +1,7 @@
-@php 
-   $currentUrl    = Request::segment(1); 
-//    $currentUrlCls = 'bg-slate-700 rounded-xl'; 
-   $currentUrlCls = 'active'; 
+@php
+$currentUrl = Request::segment(1);
+//    $currentUrlCls = 'bg-slate-700 rounded-xl';
+$currentUrlCls = 'active';
 @endphp
 
 <ul class="navbar-nav bg-slate-600 sidebar sidebar-dark accordion font-weight-bold toggled" id="accordionSidebar">
@@ -18,27 +18,39 @@
     {{-- <hr class="sidebar-divider my-0"> --}}
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{$currentUrl == 'home' ? $currentUrlCls : ''}}"   
-        data-toggle="tooltip" data-placement="right" title="Home">
+    <li class="nav-item {{ $currentUrl == 'home' ? $currentUrlCls : '' }}" data-toggle="tooltip" data-placement="right"
+        title="Home">
         <a class="nav-link" href="{{ route('home') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
     </li>
     {{-- <hr class="sidebar-divider"> --}}
-    <li class="nav-item {{$currentUrl == 'products' ? $currentUrlCls : ''}}"
-        data-toggle="tooltip" data-placement="right" title="Products">
-        <a class="nav-link" href="{{ route('products.index')}}">
+    <li class="nav-item {{ $currentUrl == 'products' ? $currentUrlCls : '' }}" data-toggle="tooltip"
+        data-placement="right" title="Products">
+        <a class="nav-link" href="{{ route('products.index') }}">
             <i class="fas fa-fw fa-box"></i>
             <span>Product</span></a>
     </li>
-    {{-- <li class="nav-item {{$currentUrl == 'transactions' ? $currentUrlCls : ''}}"
-        data-toggle="tooltip" data-placement="right" title="Transactions">
-        <a class="nav-link" href="{{ route('transactions.index')}}">
+    <li class="nav-item {{ $currentUrl == 'transactions' ? $currentUrlCls : '' }}" data-toggle="tooltip"
+        data-placement="right" title="Transactions">
+        <a class="nav-link" href="{{ route('transactions.index') }}">
             <i class="fas fa-fw fa-money-bill-wave"></i>
             <span>Transaction</span></a>
-    </li> --}}
-    <li class="nav-item {{$currentUrl == 'transactions' ? $currentUrlCls : ''}}">
+    </li>
+    <li class="nav-item {{ $currentUrl == 'apriori-analysis' ? $currentUrlCls : '' }}" data-toggle="tooltip"
+        data-placement="right" title="Apriori Analytics">
+        <a class="nav-link" href="{{ route('apriori-analysis.index') }}">
+            <i class="fas fa-fw fa-chart-bar"></i>
+            <span>Apriori Analysis</span></a>
+    </li>
+
+    <hr class="sidebar-divider d-none d-md-block">
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+    {{-- <li class="nav-item {{$currentUrl == 'transactions' ? $currentUrlCls : ''}}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
             aria-controls="collapseTwo">
             <i class="fas fa-fw fa-money-bill-wave"></i>
@@ -56,20 +68,8 @@
                     Table</a>
             </div>
         </div>
-    </li>
+    </li> --}}
     {{-- <hr class="sidebar-divider"> --}}
-    <li class="nav-item {{$currentUrl == 'apriori' ? $currentUrlCls : ''}}"
-        data-toggle="tooltip" data-placement="right" title="Apriori Analytics">
-        <a class="nav-link" href="{{ route('apriori.index') }}">
-            <i class="fas fa-fw fa-chart-bar"></i>
-            <span>Apriori Analytics</span></a>
-    </li>
-
-    <hr class="sidebar-divider d-none d-md-block">
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
-
 </ul>
 
 

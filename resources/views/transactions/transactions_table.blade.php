@@ -3,7 +3,8 @@
 @section('content')
     @include('layouts.header-pages')
     <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex flex-sm-row flex-column justify-content-between align-items-center" id="header-transaction">
+        <div class="card-header py-3 d-flex flex-sm-row flex-column justify-content-between align-items-center"
+            id="header-transaction">
             <h6 class="m-0 font-weight-bold text-primary">Data {{ $headerpages }}</h6>
             <div class="d-flex flex-row mt-sm-0 mt-3">
                 <button class="btn btn-sm btn-primary mr-2 open-filter">
@@ -20,8 +21,10 @@
                 <div class="d-flex flex-sm-row flex-column justify-content-end bg-slate-300 px-2 pt-3 w-100">
                     <div class="filter-range">
                         <div class="form-group d-flex flex-sm-row flex-column align-items-center">
-                            <span class="mr-sm-3 my-2 my-sm-0 col-sm-5  text-gray-900"><strong>Filter Date Range</strong></span>
-                            <input type="text" class="form-control pull-right" id="datesearch" placeholder="Search by date range..">
+                            <span class="mr-sm-3 my-2 my-sm-0 col-sm-5  text-gray-900"><strong>Filter Date
+                                    Range</strong></span>
+                            <input type="text" class="form-control pull-right" id="datesearch"
+                                placeholder="Search by date range..">
                             {{-- <input type="text" name="daterange" value="01/01/2022 - 01/15/2022" /> --}}
                             {{-- <input type="date" class="filter-trans-from form-control mr-sm-2" >
                             <i class="fas fa-arrow-right fa-sm fa-fw mr-sm-2 d-sm-block d-none"></i>
@@ -51,11 +54,11 @@
 @endsection
 
 @push('modal')
-   
     @include('transactions.transactions_detail')
+    @include('transactions.transactions_add')
     {{-- @include('products.products_edit') --}}
 @endpush
 
 @push('js-app')
-    
+    <script src="{{ asset('js-app/app-transaction.js') }}"></script>
 @endpush

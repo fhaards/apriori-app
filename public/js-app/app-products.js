@@ -6,9 +6,8 @@ var thisTablesUses = $("#table-products").DataTable({
         type: "GET",
     },
     columns: [
-        { data: "product_id", name: "product_id" },
         { data: "name", name: "name" },
-        { data: "brand", name: "brand" },
+        { data: "type", name: "type" },
         { data: "price", name: "price" },
         { data: "stock", name: "stock" },
         { data: "created", name: "created" },
@@ -17,11 +16,11 @@ var thisTablesUses = $("#table-products").DataTable({
     ],
     columnDefs: [
         {
-            targets : 5,
+            targets : 4,
             visible : false
         },
         {
-            targets : 6,
+            targets : 5,
             render: function (data, type, row, meta) {
                 return (
                     '<span class="d-none">'+row.created+'</span>'+
@@ -30,7 +29,7 @@ var thisTablesUses = $("#table-products").DataTable({
             },
         },
         {
-            targets: 7,
+            targets: 6,
             orderable: false,
             render: function (data, type, row, meta) {
                 return (
@@ -39,24 +38,24 @@ var thisTablesUses = $("#table-products").DataTable({
                         '<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-100"></i>'+
                     '</button>'+
                     '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">'+
-                        '<a type="button" class="dropdown-item text-success add-stock"' + '" product-id="' + row.product_id + '"/><i class="fas fa-plus fa-xs mr-1"></i> Change Stock</a>'+
-                        '<a type="button" class="dropdown-item text-warning edit"' + '" product-id="' + row.product_id + '" value="Edit"/><i class="fas fa-pencil-alt fa-xs mr-1"></i> Edit </a>'+
+                        '<a type="button" class="dropdown-item text-success add-stock"' + '" product-id="' + row.id + '"/><i class="fas fa-plus fa-xs mr-1"></i> Change Stock</a>'+
+                        '<a type="button" class="dropdown-item text-warning edit"' + '" product-id="' + row.id + '" value="Edit"/><i class="fas fa-pencil-alt fa-xs mr-1"></i> Edit </a>'+
                         '<div class="dropdown-divider"></div>'+
-                        '<a type="button" class="dropdown-item text-danger delete"' + '" product-id="' + row.product_id + '" value="Edit"/><i class="fas fa-trash fa-xs mr-1"></i> Delete </a>'+
+                        '<a type="button" class="dropdown-item text-danger delete"' + '" product-name="'+row.name+' ('+row.type+')'+'" product-id="' + row.id + '" value="Edit"/><i class="fas fa-trash fa-xs mr-1"></i> Delete </a>'+
                     '</div>'+
                 '</div>'
                 );
                 // return (
                 //     '<div class="d-flex justify-content-around">' +
-                //     '<button class="btn btn-success btn-sm add-stock"' + '" product-id="' + row.product_id + '"/><i class="fas fa-plus fa-sm fa-fw"></i></button>' + 
-                //     '<button class="btn btn-warning btn-sm edit"' + '" product-id="' + row.product_id + '" value="Edit"/><i class="fas fa-pencil-alt fa-sm fa-fw"></i></button>' + 
-                //     '<button class="btn btn-danger btn-sm delete"' + '" product-id="' + row.product_id + '"/><i class="fas fa-trash fa-sm fa-fw"></i></button>' +
+                //     '<button class="btn btn-success btn-sm add-stock"' + '" product-id="' + row.id + '"/><i class="fas fa-plus fa-sm fa-fw"></i></button>' + 
+                //     '<button class="btn btn-warning btn-sm edit"' + '" product-id="' + row.id + '" value="Edit"/><i class="fas fa-pencil-alt fa-sm fa-fw"></i></button>' + 
+                //     '<button class="btn btn-danger btn-sm delete"' + '" product-id="' + row.id + '"/><i class="fas fa-trash fa-sm fa-fw"></i></button>' +
                 //     '</div>'
                 // );
             },
         },
     ],
-    order: [[5, "desc"]],
+    order: [[4, "desc"]],
     pageLength: 5,
 });
 
@@ -188,7 +187,7 @@ $("#table-products tbody").on("click", ".edit", function (e) {
             var action = WEB_URL + "/" + productEditId;
             $("#productEditModal .form-edit-product").attr("action",action);
             $("#productEditModal .product-name").val(response.data[0].name);
-            $("#productEditModal .product-brand").val(response.data[0].brand);
+            $("#productEditModal .product-type").val(response.data[0].type);
             $("#productEditModal .product-price").val(response.data[0].price);
         },
         error: function (response) {
@@ -203,9 +202,10 @@ $("#table-products tbody").on("click", ".edit", function (e) {
 $("#table-products tbody").on("click", ".delete", function (e) {
     e.preventDefault();
     var productDeleteId = $(this).attr("product-id");
+    var productDeleteNm = $(this).attr("product-name");
     Swal.fire({
         title: "Are you sure?",
-        text: productDeleteId+" , You won't be able to revert this!",
+        text: "Delete : "+productDeleteNm+ " , You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
@@ -267,7 +267,7 @@ $("#table-products tbody").on("click", ".delete", function (e) {
 // $("#productEditModal .form-edit-product").on("submit", function(e){
 //     e.preventDefault();
 //     var productName  = $("#productEditModal .product-name").val();
-//     var productBrand = $("#productEditModal .product-brand").val();
+//     var productBrand = $("#productEditModal .product-type").val();
 //     var productPrice = $("#productEditModal .product-price").val();
 //     $.ajax({
 //         type: "POST",
@@ -275,7 +275,7 @@ $("#table-products tbody").on("click", ".delete", function (e) {
 //         data: {
 //             _method : 'PUT',
 //             name  : productName,
-//             brand : productBrand,
+//             type : productBrand,
 //             price : productPrice,
 //         },
 //         dataType: "JSON",

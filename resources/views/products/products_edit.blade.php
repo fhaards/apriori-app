@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold" for="inputAddress">Brand</label>
-                        <input type="text" name="brand" class="form-control product-brand">
+                        <input type="text" name="type" class="form-control product-type">
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold" for="inputAddress">Price</label>

@@ -17,9 +17,9 @@
                             placeholder="Input Products Name">
                     </div>
                     <div class="form-group">
-                        <label class="font-weight-bold" for="inputBrand">Brand</label>
-                        <input type="text" name="brand" class="form-control" id="inputBrand"
-                            placeholder="Selected Brand">
+                        <label class="font-weight-bold" for="inputType">Type</label>
+                        <input type="text" name="type" class="form-control" id="inputType"
+                            placeholder="Input Type">
                     </div>
                     <div class="form-row ">
                         <div class="form-group col-lg-6">

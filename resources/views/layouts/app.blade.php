@@ -44,7 +44,6 @@
             </div>
         @endguest
     </div>
-    @include('transactions.transactions_add')
     @stack('modal')
 
     <!-- Bootstrap core JavaScript-->
@@ -85,7 +84,6 @@
         // });
     </script>
     @stack('js-app')
-    <script src="{{ asset('js-app/app-transaction.js') }}"></script>
 </body>
 
 </html>

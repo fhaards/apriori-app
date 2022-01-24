@@ -143,16 +143,16 @@ function loadProducts(getCountProduct){
   
     // Looping for product
     for (let i = 0; i < getCountProduct; i++) {
-        setHtmlSelProduct += '<div class="form-row">';
-        setHtmlSelProduct += '<div class="form-group col-9 col-sm-8">';
-        setHtmlSelProduct += '<label for="productId">Product</label>';
-        setHtmlSelProduct += '<select name="product_id_'+ i +'" class="form-control pick-product">';
-        setHtmlSelProduct += '</select>';
-        setHtmlSelProduct += '</div>';
-        setHtmlSelProduct += '<div class="form-group col-3 col-sm-4">';
-        setHtmlSelProduct += '<label for="subQty">Qty</label>';
-        setHtmlSelProduct += '<input name="qty_product_'+ i +'" class="form-control stockready'+i+'" type="number">';
-        setHtmlSelProduct += '</div>';
+        setHtmlSelProduct += '<div class="form-row px-0">';
+            setHtmlSelProduct += '<div class="form-group col-9 col-md-9 col-lg-10">';
+                setHtmlSelProduct += '<label for="productId">Product</label>';
+                setHtmlSelProduct += '<select name="product_id_'+ i +'" class="form-control pick-product">';
+                setHtmlSelProduct += '</select>';
+            setHtmlSelProduct += '</div>';
+                setHtmlSelProduct += '<div class="form-group col-3 col-md-3 col-lg-2">';
+                setHtmlSelProduct += '<label for="subQty">Qty</label>';
+                setHtmlSelProduct += '<input name="qty_product_'+ i +'" class="form-control stockready'+i+'" type="number" required>';
+            setHtmlSelProduct += '</div>';
         setHtmlSelProduct += '</div>';
     }
     selectProduct.html(setHtmlSelProduct);
@@ -165,7 +165,8 @@ function loadProducts(getCountProduct){
         success: function (response) {
             for (let x = 0; x < response.recordsTotal; x++) { 
                 var stockready = response.data[x].stock;
-                $("#select-product .pick-product").append('<option data-stock="'+stockready+'" value="'+response.data[x].product_id+'">'+response.data[x].name+' | '+response.data[x].price+ ' | Stock : '+response.data[x].stock +'</option>');
+                $("#select-product .pick-product").append('<option data-stock="'+stockready+'" value="'+response.data[x].id+'">'+
+                response.data[x].name+' ('+ response.data[x].type +') | '+response.data[x].price+ ' | Stock : '+response.data[x].stock +'</option>');
                 
 
                 // $("#select-product .stockready").attr("max",stockready);
@@ -298,6 +299,7 @@ $("#table-transactions tbody").on("click", ".detail", function (e) {
                 htmlDetProd += '<tr>';
                 htmlDetProd += '<td>'+numbProd+'</td>';
                 htmlDetProd += '<td>'+response.list[i].product_name+'</td>';
+                htmlDetProd += '<td>'+response.list[i].product_type+'</td>';
                 htmlDetProd += '<td>'+response.list[i].product_price+'</td>';
                 htmlDetProd += '<td>'+response.list[i].subtotal_qty+'</td>';
                 htmlDetProd += '<td>'+response.list[i].subtotal_price+'</td>';

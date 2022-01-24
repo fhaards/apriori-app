@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{$headerpages}}</title>
+    <title>{{ $headerpages }}</title>
 </head>
 <style>
     header {
@@ -122,7 +122,7 @@
 
     .trans-table {
         padding: 0px;
-        margin:5rem 0 0 0;
+        margin: 5rem 0 0 0;
     }
 
     .trans-table tr td .title {
@@ -221,6 +221,7 @@
             <thead>
                 <tr>
                     <th width="40%">Items</th>
+                    <th width="40%">Type</th>
                     <th width="20%">Qty</th>
                     <th width="40%">Price / pcs</th>
                     <th width="40%">Subtotal</th>
@@ -229,7 +230,8 @@
             <tbody>
                 @foreach ($transaction_list as $item)
                     <tr class="data">
-                        <td>{{ $item->name }} ( {{ $item->brand}} )</td>
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->type }}</td>
                         <td style="text-align:center;">{{ $item->subtotal_qty }} pcs</td>
                         <td style="text-align:right;"> Rp {{ number_format($item->price) }}</td>
                         <td style="text-align:right;"> Rp {{ number_format($item->subtotal_price) }}</td>
@@ -238,13 +240,13 @@
             </tbody>
             <tfoot>
                 <tr class="total-1">
-                    <td colspan="3">Total Qty</td>
+                    <td colspan="4">Total Qty</td>
                     <td colspan="1" style="text-align:right;">
                         {{ number_format($transaction->total_qty) }} pcs
                     </td>
                 </tr>
                 <tr class="total-2">
-                    <td colspan="3">Total</td>
+                    <td colspan="4">Total</td>
                     <td colspan="1" style="text-align:right;">
                         Rp {{ number_format($transaction->total_price) }}
                     </td>

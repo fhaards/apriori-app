@@ -45,11 +45,11 @@ class ProductsController extends Controller
         if ($findData->total() > 0) {
             foreach ($findData as $dt) :
                 $data[] = [
-                    'product_id' => $dt->product_id,
-                    'name' => $dt->name,
-                    'brand' => $dt->brand,
-                    'price' => 'Rp. ' . number_format($dt->price, 2),
-                    'stock' => $dt->stock,
+                    'id'      => $dt->id,
+                    'name'    => $dt->name,
+                    'type'    => $dt->type,
+                    'price'   => 'Rp. ' . number_format($dt->price, 2),
+                    'stock'   => $dt->stock,
                     'created' => date('d/m/Y H:i:s', strtotime($dt->created_at)),
                     'created_str' => Carbon::parse($dt->created_at)->isoFormat('dddd, DD / MM / Y'),
                 ];
@@ -85,19 +85,18 @@ class ProductsController extends Controller
 
 
         $productName  = $request->input('name');
-        $productBrand = $request->input('brand');
+        $productType  = $request->input('type');
 
         //CREATE PRODUCT ID
-        $getUnique1 = GLBH::geneName($productName, $productBrand);
-        $getUnique2 = GLBH::geneRandString();
-        $getUnique3 = date('ymdHis');
-        $productId = $getUnique1 . $getUnique2 . $getUnique3;
+        // $getUnique1 = GLBH::geneName($productName, $productBrand);
+        // $getUnique2 = GLBH::geneRandString();
+        // $getUnique3 = date('ymdHis');
+        // $productId = $getUnique1 . $getUnique2 . $getUnique3;
 
         if (!$error) {
             $inputProducts = new PRD;
-            $inputProducts->product_id = $productId;
             $inputProducts->name  = $productName;
-            $inputProducts->brand = $productBrand;
+            $inputProducts->type = $productType;
             $inputProducts->price = $request->input('price');
             $inputProducts->stock = $request->input('stock');
             $insert = $inputProducts->save();
@@ -133,12 +132,12 @@ class ProductsController extends Controller
         $data = [];
 
         // GET DATA FROM DATABASE
-        $findData = PRD::where('product_id', $id)->get();
+        $findData = PRD::where('id', $id)->get();
         foreach ($findData as $dt) :
             $data[] = [
-                'product_id' => $dt->product_id,
-                'name' => $dt->name,
-                'brand' => $dt->brand,
+                'id'    => $dt->id,
+                'name'  => $dt->name,
+                'type'  => $dt->type,
                 'price' => $dt->price,
                 'stock' => $dt->stock,
                 'created' => date('d/m/Y - H:i', strtotime($dt->created_at))
@@ -161,13 +160,13 @@ class ProductsController extends Controller
         $data = [];
 
         $productName  = $request->input('name');
-        $productBrand = $request->input('brand');
+        $productType  = $request->input('type');
         $productPrice = $request->input('price');
 
         if (!$error) {
             $inputProducts = PRD::find($id);
             $inputProducts->name  = $productName;
-            $inputProducts->brand = $productBrand;
+            $inputProducts->type  = $productType;
             $inputProducts->price = $productPrice;
             $update = $inputProducts->save();
             if ($update) {

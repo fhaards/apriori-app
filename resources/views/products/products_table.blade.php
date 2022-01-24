@@ -15,9 +15,8 @@
                 <table class="table table-striped table-hover" id="table-products" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Product ID</th>
                             <th>Name</th>
-                            <th>Brand</th>
+                            <th>Type</th>
                             <th>Price</th>
                             <th>Stock</th>
                             <th>Date Fake</th>

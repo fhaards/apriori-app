@@ -30,12 +30,12 @@
                             <p class="mb-0 pb-0 transaction-name text-dark font-weight-bold"></p>
                         </div>
                         <div class="col-sm-4 d-flex flex-column text-dark">
-                            <span>Total Product</span>
+                            <span>Total Item</span>
                             <p class="mb-0 pb-0 transaction-prodnumber text-dark font-weight-bold"></p>
                         </div>
                     </div>
                     <div>
-                        <h5 class="text-primary mb-3 border-top pt-4 pb-2"> Product List</h5>
+                        <h5 class="text-primary mb-3 border-top pt-4 pb-2"> Item List</h5>
                     </div>
 
                     <div class="mx-0" style="max-height: 400px;overflow-x: hidden;overflow-y: scroll;">
@@ -44,7 +44,8 @@
                                 <thead>
                                     <tr>
                                         <th width="2%">No</th>
-                                        <th>Product</th>
+                                        <th>Item</th>
+                                        <th>Type</th>
                                         <th>Price</th>
                                         <th>Subtotal Qty</th>
                                         <th>Subtotal Price</th>
@@ -53,11 +54,11 @@
                                 <tbody></tbody>
                                 <tfoot>
                                     <tr class="bg-slate-500 text-white font-weight-bold">
-                                        <th colspan="4">Total Qty</th>
+                                        <th colspan="5">Total Qty</th>
                                         <th><span class="total-qty"></span></th>
                                     </tr>
                                     <tr class="bg-slate-600 text-white font-weight-bold">
-                                        <th colspan="4">Total</th>
+                                        <th colspan="5">Total</th>
                                         <th><span class="total-price"></span></th>
                                     </tr>
                                 </tfoot>

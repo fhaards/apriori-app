@@ -14,9 +14,9 @@ class CreateTransactionsListsTable extends Migration
     public function up()
     {
         Schema::create('transactions_lists', function (Blueprint $table) {
-            $table->increments('id')->primary();
+            $table->id();
             $table->string('transaction_id',25);
-            $table->string('product_id',25);
+            $table->bigInteger('product_id');
             $table->bigInteger('subtotal_qty');
             $table->bigInteger('subtotal_price');
         });

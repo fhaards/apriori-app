@@ -11,7 +11,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body mx-lg-3">
+                <div class="modal-body mx-lg-1 px-4">
                     <div class="form-row border-bottom">
                         <div class="form-group col-sm-8">
                             <label class="font-weight-bold" for="customerName">Customer Name</label>
@@ -26,10 +26,10 @@
 
                     <div class="form-row">
                         <div class="col-12 py-2 my-2 border-bottom">
-                            <label class="font-weight-bold">Product List</label>
+                            <label class="font-weight-bold">Item List</label>
                         </div>
                     </div>
-                    <div class="px-4" style="max-height: 400px;overflow-x: hidden;overflow-y: scroll;">
+                    <div class="" style="max-height: 400px;overflow-x: hidden;overflow-y: scroll;">
                         <div id="select-product"></div>
                     </div>
                 </div>

@@ -55,15 +55,15 @@ class TransactionsController extends Controller
         if ($findData->total() > 0) {
             foreach ($findData as $dt) :
                 $data[] = [
-                    'transaction_id' => $dt->transaction_id,
-                    'customer_name' => $dt->customer_name,
-                    // 'created'        => Carbon::parse($dt->created_at)->isoFormat('dddd, D MMMM Y (H : mm)'),
-                    'created'        => date('d/m/Y', strtotime($dt->created_at)),
-                    'created_at_full'        => date('d/m/Y H:i:s', strtotime($dt->created_at)),
-                    // 'created_str'    => date('d/m/Y', strtotime($dt->created_at)),
-                    'created_str'    => Carbon::parse($dt->created_at)->isoFormat('dddd, DD - MMMM - Y'),
-                    'total_qty'      => $dt->total_qty,
-                    'total_price'    => 'Rp. ' . number_format($dt->total_price, 2)
+                    'transaction_id'  => $dt->transaction_id,
+                    'customer_name'   => $dt->customer_name,
+                    'created'         => date('d/m/Y', strtotime($dt->created_at)),
+                    'created_at_full' => date('d/m/Y H:i:s', strtotime($dt->created_at)),
+                    'created_str'     => Carbon::parse($dt->created_at)->isoFormat('dddd, DD - MMMM - Y'),
+                    'total_qty'       => $dt->total_qty,
+                    'total_price'     => 'Rp. ' . number_format($dt->total_price, 2)
+                    // 'created'      => Carbon::parse($dt->created_at)->isoFormat('dddd, D MMMM Y (H : mm)'),
+                    // 'created_str'  => date('d/m/Y', strtotime($dt->created_at)),
                 ];
             endforeach;
 
@@ -122,7 +122,7 @@ class TransactionsController extends Controller
                 $inputTranslist->subtotal_price = $getSubTotal;
                 $inputTranslist->save();
 
-                $getProducts = PRD::where('product_id', $productId)->first();
+                $getProducts = PRD::where('id', $productId)->first();
                 $getQtyPrd   = $getProducts->stock;
                 $minQtyPrd   = $getQtyPrd - $setQty;
                 if ($getProducts == true) {
@@ -231,7 +231,7 @@ class TransactionsController extends Controller
 
         $findData     = TRS::where('transaction_id', $id)->get();
         $findDataList = DB::table('transactions_lists as tr')
-            ->join('products as prd', 'tr.product_id', '=', 'prd.product_id')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.id')
             ->where('tr.transaction_id', '=', $id)
             ->get();
         $totalList   = TRSLIST::where('transaction_id', $id)->count();
@@ -250,7 +250,7 @@ class TransactionsController extends Controller
             $data2[] = [
                 'product_id' => $dtlist->product_id,
                 'product_name' => $dtlist->name,
-                'product_brand' => $dtlist->brand,
+                'product_type' => $dtlist->type,
                 'product_price' => 'Rp ' . number_format($dtlist->price, 0),
                 'subtotal_qty' => $dtlist->subtotal_qty,
                 'subtotal_price' => 'Rp ' . number_format($dtlist->subtotal_price, 0)
@@ -282,7 +282,7 @@ class TransactionsController extends Controller
     {
         $findData = null;
         $findDataList = DB::table('transactions_lists as tr')
-            ->join('products as prd', 'tr.product_id', '=', 'prd.product_id')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.id')
             ->where('tr.transaction_id', '=', $id);
 
         $data = [];

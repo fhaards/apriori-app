@@ -12,10 +12,10 @@ class GlobalHelpers
     public static function getRandId()
     {
         $randStrPool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $setRandStr  = strtoupper(substr(str_shuffle(str_repeat($randStrPool, 5)), 0, 3));
+        $setRandStr  = strtoupper(substr(str_shuffle(str_repeat($randStrPool, 3)), 0, 3));
         $setRandDate = date('ymd');
         $setRandTime = date('his');
-        $setRandId   = $setRandDate . $setRandStr . $setRandTime;
+        $setRandId   = $setRandStr . $setRandDate . $setRandTime;
         // return trim($setRands);
         return $setRandId;
     }
