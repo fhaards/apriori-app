@@ -18,23 +18,31 @@
                             @php
                                 $prod = $data['prod'];
                                 $transact = $data['transact'];
-                                $datalist = $data['datalist'];
-                                // $arrPrd   = $data['arrPrd'];
+                                // $datalist = $data['sendToData'];
+                                $arrPrd = $data['arrPrd'];
+                                $qty = $data['qty'];
                             @endphp
                             @foreach ($prod as $names)
                                 <th>{{ $names->type }} </th>
                             @endforeach
                         </tr>
+                        
+                        @php
+                            $newarray = array_merge($arrPrd, $qty);
+                            echo json_encode($arrPrd);
+                            echo '<br>';
+                        @endphp
 
                         @foreach ($transact as $tr)
                             <tr>
                                 @foreach ($prod as $ptt)
                                     @php $prodId = $ptt->id; @endphp
-                                    <td>
-                                        @php
-                                            echo $datalist;
-                                        @endphp
-                                    </td>
+
+                                    @if (in_array($prodId, $arrPrd))
+                                        <td>1</td>
+                                    @else
+                                        <td>0</td>
+                                    @endif
                                 @endforeach
                             </tr>
                         @endforeach
@@ -44,3 +52,10 @@
         </div>
     </div>
 @endsection
+
+{{-- if (in_array($prodId, $arrPrd)) {
+    $results = $qty;
+} else {
+    $results = 0;
+}
+$sendToDatalist = $results; --}}
