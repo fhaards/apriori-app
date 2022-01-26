@@ -153,7 +153,7 @@ $("#table-products tbody").on("click", ".add-stock", function () {
                             text: succMessages,
                             showConfirmButton: false,
                             allowOutsideClick: false,
-                            timer: 2000,
+                            timer: 1000,
                         })
                         .then((result) => {
                             if (result.dismiss === Swal.DismissReason.timer) {

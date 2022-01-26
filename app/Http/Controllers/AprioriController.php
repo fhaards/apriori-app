@@ -42,8 +42,7 @@ class AprioriController extends Controller
 
     public function show($id)
     {
-        $dataList = [];
-
+        $getArray = [];
         //load product lists
         $prodlist = DB::table('transactions_lists as tr')
             ->join('products as prd', 'tr.product_id', '=', 'prd.id')
@@ -52,22 +51,27 @@ class AprioriController extends Controller
             ->groupBy('prd.id', 'prd.name', 'prd.type')
             ->orderBy('subqty', 'DESC');
 
-        $results = 0;
-        $transact     = TRS::orderBy('created_at', 'DESC')->get();
-        $prod         = $prodlist->get();
-        $dataList     = APHELP::getAprioriTable();
-        $user         = Auth::user();
-        $headerpages  = $this->pagesname;
+        // $results = 0;
+        // $transact     = TRS::orderBy('created_at', 'DESC')->get();
+        // $prod         = $prodlist->get();
+        // $dataList     = APHELP::getAprioriTable($getArray);
 
-        $data = array(
-            'user' => $user,
-            'headerpages' => $headerpages,
-            'prod' => $prod,
-            'transact'  => $transact,
-            'toviewlist' => $dataList
-        );
+        $data['getArray']    = APHELP::getAprioriTable($getArray);
+        $data['transact']    = TRS::orderBy('created_at', 'DESC')->get();
+        $data['prod']        = $prodlist->get();
+        $data['headerpages'] = $this->pagesname;
+        $data['user']        = Auth::user();
+        return view('apriori.apriori_table', $data);
+        // $data = array(
+        //     'user' => $user,
+        //     'headerpages' => $headerpages,
+        //     'prod' => $prod,
+        //     'transact'  => $transact,
+        //     'getArray' => $dataList
+        // );
 
-        return view('apriori.apriori_table', compact('data'));
+        // return view('apriori.apriori_table', compact('data'));
+
     }
 
     public function combineTest()
@@ -557,7 +561,6 @@ class AprioriController extends Controller
         $idTransLoop = [];
         $idProducts  = [];
         $productsId  = [];
-        $LoopTransaction = [];
         $LoopProducts = [];
         $type = [];
         $getVal = [];
@@ -574,46 +577,56 @@ class AprioriController extends Controller
 
         $i = 0;
         foreach ($listTransact as $tr) {
-            $idtrans      = $tr->transaction_id;
+            $idtrans       = $tr->transaction_id;
+            echo $idtrans . '<<br>';
             foreach ($loopProduct as $item) {
-                $prodId  = $item->id;
-                $trans  = DB::table('transactions_lists as tr')
-                        ->select(DB::raw("tr.product_id,tr.transaction_id,tr.subtotal_qty"))
-                        ->where('tr.product_id', '=', $prodId)
-                        ->where('tr.transaction_id', '=', $idtrans)
-                        ->groupBy('tr.product_id', 'tr.transaction_id', 'tr.subtotal_qty');
-                $sendToDatalist = $trans->get();
-                foreach ($sendToDatalist as $val) {
-                    $idProducts = $val->product_id;
-                    $qty        = $val->subtotal_qty;
-                    $arrPrd     = array($idProducts);
+
+                $prodId = $item->id;
+                // $trans  = DB::table('transactions_lists as tr')
+                //     ->leftJoin('transactions as trans', 'tr.transaction_id', '=', 'trans.transaction_id')
+                //     ->select(DB::raw("tr.product_id,tr.transaction_id,tr.subtotal_qty"))
+                //     ->where('tr.product_id', '=', $prodId)
+                //     ->where('tr.transaction_id', '=', $idtrans)
+                //     ->groupBy('tr.product_id', 'tr.transaction_id', 'tr.subtotal_qty');
+
+                $trans = DB::table('transactions_lists as tr')
+                    ->select('subtotal_qty as subqty')
+                    ->where('tr.transaction_id', '=', $idtrans)
+                    ->get();
+
+                foreach ($trans as $val) {
+                    // $prodIdTrans = $val->product_id;
+                    $qty[] = $val->subqty;
+                    // $arrPrd      = array($prodIdTrans);
                 }
-                if (in_array($prodId, $arrPrd)) {
-                    $getVal = $qty;
-                } else {
-                    $getVal = 0;
-                }
-                $result[] = $getVal;
+                // $qty[] = $transList->subtotal_qty;
+
             }
-            $idTransLoop = $idtrans;
+
+
+            // if (in_array($prodId, $arrPrd)) {
+            //     $getVal = $qty;
+            // } else {
+            //     $getVal = 0;
+            // }
             $getArray[] = [
-                $idTransLoop => $result
+                $qty
             ];
-
-            // $getArray = array_merge($LoopTransaction, $LoopProducts);
-            // $getArray[] = [
-            //     $idTransLoop => [
-            //         'prodId' => [$idProducts],
-            //         'qty' => [$subqty],
-            //         'results' => $results
-            //     ],
-            // ];
-
-
         }
 
 
 
+
+
+
+        // $getArray = array_merge($LoopTransaction, $LoopProducts);
+        // $getArray[] = [
+        //     $idTransLoop => [
+        //         'prodId' => [$idProducts],
+        //         'qty' => [$subqty],
+        //         'results' => $results
+        //     ],
+        // ];
 
 
 
@@ -632,6 +645,194 @@ class AprioriController extends Controller
 
         // $getArray = array_merge($LoopTransaction, $LoopProducts);
         echo json_encode($getArray);
+    }
+
+    public function combineTest10()
+    {
+        $getArray = [];
+        $qty      = [];
+        $countProduct = 0;
+        $arrPrd  = [];
+        $results = [];
+        $groups  = [];
+
+        $listProduct = DB::table('transactions_lists as tr')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.id')
+            ->select(DB::raw('prd.id,prd.name,prd.type'))
+            ->addSelect(DB::raw('SUM(tr.subtotal_qty) as subqty'))
+            ->groupBy('prd.id', 'prd.name', 'prd.type')
+            ->orderBy('subqty', 'DESC');
+
+
+        $listTransact2 = TRS::get();
+        $loopProduct   = $listProduct->get();
+        $loopProduct2  = $listProduct->get();
+        // $countProduct  = $loopProduct->count();
+        // $splice        = ((int)$countProduct - 1);
+
+        $countProduct = $loopProduct->count();
+        $cTrans       = $listTransact2->count();
+
+        $listTransact  = TRS::get();
+
+        foreach ($listTransact as $key => $tr) {
+            foreach ($loopProduct as $item) {
+                $prodId = $item->id;
+                $arrPrd = array($prodId);
+                $trans  = DB::table('transactions_lists as tr')
+                    ->leftJoin('transactions as trans', 'tr.transaction_id', '=', 'trans.transaction_id')
+                    ->select(DB::raw("tr.product_id,tr.transaction_id,tr.subtotal_qty"))
+                    ->where('tr.product_id', '=', $item->id)
+                    ->where('tr.transaction_id', '=', $tr->transaction_id)
+                    ->groupBy('tr.product_id', 'tr.transaction_id', 'tr.subtotal_qty')
+                    ->get();
+
+                foreach ($trans as $val) {
+                    $prodIdTrans = $val->product_id;
+                    $qty         = $val->subtotal_qty;
+                    // $arrPrd      = array($prodIdTrans);
+                }
+
+                if (in_array($prodIdTrans, $arrPrd)) {
+                    $results[] = $qty;
+                } else {
+                    $results[] = 0;
+                }
+
+                $collection = collect($results);
+
+                $groups = $collection->split($cTrans);
+                $torest = $groups->all();
+            }
+        }
+
+
+        foreach ($listTransact2 as $key => $tr) {
+            $idtrans = $tr->transaction_id;
+            $getArray[] = [
+                'counts' => $countProduct,
+                'trans_id' => $idtrans,
+                'sub_qty' => $torest
+            ];
+        }
+
+
+
+        echo json_encode($getArray);
+
+        // TRSLIST::select('subtotal_qty')
+        // ->where('transaction_id', $tr->transaction_id)
+        // ->where('product_id', $item->id)
+        // ->groupBy('subtotal_qty', 'transaction_id')
+        // ->get();
+        // $collection = collect($trans);
+        // $groups = $collection->splitIn($countProduct);
+        // $groups->all();
+    }
+
+    public function combineTest11()
+    {
+        $data       = [];
+        $results    = [];
+        $arrPrd     = [];
+        $getArray   = [];
+        $prodlist2  = DB::table('transactions_lists as tr')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.id')
+            ->select(DB::raw('prd.id,prd.name,prd.type'))
+            ->addSelect(DB::raw('SUM(tr.subtotal_qty) as subqty'))
+            ->groupBy('prd.id', 'prd.name', 'prd.type')
+            ->orderBy('subqty', 'DESC');
+        $eachProd  = $prodlist2->get();
+
+        $transactions = TRS::orderBy('created_at', 'DESC')->get();
+        $transCount = $transactions->count();
+        $eachProd2  = $prodlist2->get();
+
+        foreach ($transactions as $tr) {
+            $idtrans = $tr->transaction_id;
+            foreach ($eachProd2 as $key => $item) {
+                $prodId    = $item->id;
+                $translist = DB::table('transactions_lists as tr')
+                    ->leftJoin('transactions as trans', 'tr.transaction_id', '=', 'trans.transaction_id')
+                    ->select(DB::raw("tr.product_id,tr.transaction_id,tr.subtotal_qty"))
+                    ->where('tr.product_id', '=', $prodId)
+                    ->where('tr.transaction_id', '=', $idtrans)
+                    ->groupBy('tr.product_id', 'tr.transaction_id', 'tr.subtotal_qty')
+                    ->get()->toArray();
+
+                foreach ($translist as $val) {
+                    $prodIdTrans = $val->product_id;
+                    $qty         = $val->subtotal_qty;
+                    $arrPrd      = array($prodIdTrans);
+                }
+                if (in_array($prodId, $arrPrd)) {
+                    $results = $qty;
+                } else {
+                    $results = 0;
+                }
+
+                $getArray[] = $results;
+                return json_encode($getArray);
+            }
+        }
+    }
+
+    public function combineTest12()
+    {
+        $getArray = [];
+        $qty      = [];
+        $countProduct = 0;
+
+        $listProduct = DB::table('transactions_lists as tr')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.id')
+            ->select(DB::raw('prd.id,prd.name,prd.type'))
+            ->addSelect(DB::raw('SUM(tr.subtotal_qty) as subqty'))
+            ->groupBy('prd.id', 'prd.name', 'prd.type')
+            ->orderBy('subqty', 'DESC');
+
+
+        $listTransact2 = TRS::get();
+        $loopProduct   = $listProduct->get();
+        $countProduct  = $loopProduct->count() - 1;
+        $cTrans       = $listTransact2->count();
+        $listTransact  = TRS::get();
+
+        foreach ($listTransact as $key => $tr) {
+            foreach ($loopProduct as $item) {
+                $prodId = $item->id;
+                $trans =  DB::table('transactions_lists as tr')
+                    ->leftJoin('transactions as trans', 'tr.transaction_id', '=', 'trans.transaction_id')
+                    ->select(DB::raw("tr.product_id,tr.transaction_id,tr.subtotal_qty"))
+                    ->where('tr.product_id', '=', $item->id)
+                    ->where('tr.transaction_id', '=', $tr->transaction_id)
+                    ->groupBy('tr.product_id', 'tr.transaction_id', 'tr.subtotal_qty')
+                    ->get();
+
+                foreach ($trans as $val) {
+                    $prodIdTrans = $val->product_id;
+                    $qty         = $val->subtotal_qty;
+                    $arrPrd      = array($prodIdTrans);
+                }
+                if (in_array($prodId, $arrPrd)) {
+                    $results[] = $qty;
+                } else {
+                    $results[] = 0;
+                }
+
+                $collection = collect($results);
+            }
+            $groups = $collection->split($cTrans);
+            $groups->all();
+        }
+        foreach ($listTransact2 as $key => $tr) {
+            $idtrans = $tr->transaction_id;
+            $getArray[] = [
+                'trans_id' => $idtrans,
+                'sub_qty' => $groups[$key]
+            ];
+        }
+        echo json_encode($getArray);
+        // return $getArray;
     }
 
 

@@ -9,12 +9,11 @@ use App\Models\transactions_list as TRSLIST;
 
 class AprioriHelpers
 {
-    public static function getAprioriTable()
+    public static function getAprioriTable($getArray)
     {
-        $getArray  = [];
-        $qty       = [];
-        $subqty    = [];
-        $arrPrd    = [];
+        $getArray = [];
+        $qty      = [];
+        $countProduct = 0;
 
         $listProduct = DB::table('transactions_lists as tr')
             ->join('products as prd', 'tr.product_id', '=', 'prd.id')
@@ -23,43 +22,55 @@ class AprioriHelpers
             ->groupBy('prd.id', 'prd.name', 'prd.type')
             ->orderBy('subqty', 'DESC');
 
-        $listTransact = TRS::orderBy('created_at', 'DESC')->get();
-        $loopProduct  = $listProduct->get();
 
-        $i = 0;
-        foreach ($listTransact as $tr) {
+        $listTransact2 = TRS::get();
+        $loopProduct   = $listProduct->get();
+        $countProduct  = $loopProduct->count() - 1;
+        $cTrans       = $listTransact2->count();
+        $listTransact  = TRS::get();
+
+        foreach ($listTransact as $key => $tr) {
             $idtrans = $tr->transaction_id;
             foreach ($loopProduct as $item) {
                 $prodId = $item->id;
-                $trans  = DB::table('transactions_lists as tr')
+                $trans =  DB::table('transactions_lists as tr')
+                    ->leftJoin('transactions as trans', 'tr.transaction_id', '=', 'trans.transaction_id')
                     ->select(DB::raw("tr.product_id,tr.transaction_id,tr.subtotal_qty"))
-                    ->where('tr.product_id', '=', $prodId)
-                    ->where('tr.transaction_id', '=', $idtrans)
-                    ->groupBy('tr.product_id', 'tr.transaction_id', 'tr.subtotal_qty');
-                $sendToDatalist = $trans->get();
-                foreach ($sendToDatalist as $val) {
-                    $pIdTr    = $val->product_id;
-                    $qty[]    = [$val->subtotal_qty];
-                    $subqty[] = [$val->subtotal_qty];
-                    $arrPrd[] = array($pIdTr);
+                    ->where('tr.product_id', '=', $item->id)
+                    ->where('tr.transaction_id', '=', $tr->transaction_id)
+                    ->groupBy('tr.product_id', 'tr.transaction_id', 'tr.subtotal_qty')
+                    ->get();
+
+                foreach ($trans as $val) {
+                    $prodIdTrans = $val->product_id;
+                    $qty         = $val->subtotal_qty;
+                    $arrPrd      = array($prodIdTrans);
                 }
                 if (in_array($prodId, $arrPrd)) {
-                    $results = $qty;
+                    $results[] = $qty;
                 } else {
-                    $results = 0;
+                    $results[] = 0;
                 }
+
+                $collection = collect($results);
             }
-            $getArray[] = [
-                $i => [
-                    'prodId' => $prodId,
-                    'qty' => $subqty,
-                    'results' => $results
-                ],
-            ];
+            $groups = $collection->split($cTrans);
+            $groups->all();
         }
 
-
-
+        foreach ($listTransact2 as $key => $tr) {
+            $idtrans = $tr->transaction_id;
+            $getArray[] = [
+                $idtrans => $groups[$key],
+            ];
+        }
+        // $getArray[] = [
+        //     'count' => $cTrans,
+        //     'data'  => [
+        //         $idtrans => $groups
+        //     ],
+        // ];
+        // echo json_encode($getArray);
         return $getArray;
     }
 }
