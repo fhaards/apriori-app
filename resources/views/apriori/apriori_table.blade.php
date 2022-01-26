@@ -16,36 +16,23 @@
                     <thead>
                         <tr>
                             @php
-                                $prod = $data['prod'];
-                                $transact = $data['transact'];
-                                // $datalist = $data['sendToData'];
-                                $arrPrd = $data['arrPrd'];
-                                $qty = $data['qty'];
+                                $productList = $data['prod'];
+                                $transactList = $data['toviewlist'];
+                                // $transact = $data['transact'];
+                                // $arrPrd = $data['arrPrd'];
+                                // $qty = $data['qty'];
                             @endphp
-                            @foreach ($prod as $names)
+                            @foreach ($productList as $names)
                                 <th>{{ $names->type }} </th>
                             @endforeach
                         </tr>
-                        
-                        @php
-                            $newarray = array_merge($arrPrd, $qty);
-                            echo json_encode($arrPrd);
-                            echo '<br>';
-                        @endphp
-
-                        @foreach ($transact as $tr)
-                            <tr>
-                                @foreach ($prod as $ptt)
-                                    @php $prodId = $ptt->id; @endphp
-
-                                    @if (in_array($prodId, $arrPrd))
-                                        <td>1</td>
-                                    @else
-                                        <td>0</td>
-                                    @endif
-                                @endforeach
-                            </tr>
-                        @endforeach
+                        <tr>
+                            @foreach ($transactList as $key => $item)
+                                @php
+                                    echo $item[0]['results'];
+                                @endphp
+                            @endforeach
+                        </tr>
                     </thead>
                 </table>
             </div>
