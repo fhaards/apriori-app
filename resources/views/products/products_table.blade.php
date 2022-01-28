@@ -15,13 +15,13 @@
                 <table class="table table-striped table-hover" id="table-products" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>Stock</th>
+                            <th width="20%">Name</th>
+                            <th width="20%">Type</th>
+                            <th width="15%">Price</th>
+                            <th width="10%">Stock</th>
                             <th>Date Fake</th>
-                            <th>Date Created</th>
-                            <th></th>
+                            <th width="15%">Date Created</th>
+                            <th width="10%"></th>
                         </tr>
                     </thead>
                 </table>

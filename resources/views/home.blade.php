@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="jumbotron py-3 px-4 border text-dark" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
-        <h1 class="display-6 text-gray-900" data-aos="fade-down" data-aos-delay="300">Hello, {{ $user->name }}</h1>
-        <p class="mb-0 pb-0" data-aos="fade-up" data-aos-delay="400">Welcome Back to {{ config('app.name', 'Laravel') }}</p>
+    <div class="jumbotron py-sm-3 py-md-5 py-4 px-4 border text-dark rounded-xl" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+        <h1 class="display-6 text-white" data-aos="fade-down" data-aos-delay="300">Hello, {{ $user->name }}</h1>
+        <p class="mb-0 pb-0 text-gray-100" data-aos="fade-up" data-aos-delay="400">Welcome Back to {{ config('app.name', 'Laravel') }}</p>
     </div>
     @include('dashboard.dashboard_cart')
 @endsection

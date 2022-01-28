@@ -2,7 +2,46 @@
     max-height: 90vh;
     overflow-y: auto;
 }
-
+.navbar{
+    transition: 0.3s;
+}
+.sidebar{
+    transition: 0.3s ease-in-out;
+}
 .dataTables_wrapper .row{
     margin:0rem 0rem 2rem 0rem !important;
+}
+
+#login-pages-form .side-image{
+    background: url('../../app-img/bg-1.jpg') center center no-repeat;
+    background-size: cover;
+}
+
+.jumbotron{
+    background: url('../../app-img/bg-2.jpg') center center no-repeat;
+    background-size: cover;
+    height: 200px;
+}
+.jumbotron::before{
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left:0;
+    top:0;
+    opacity: 0.8;
+    background-color: #15803d;
+    border-radius: 0.75rem;
+}
+
+/* CHART PIE */
+.text-chart-1{
+    color: #22c55e;
+}
+.text-chart-2{
+    color: #f59e0b;
+}
+.text-chart-3{
+    color: #3b82f6;
 }

@@ -4,21 +4,22 @@ $currentUrl = Request::segment(1);
 $currentUrlCls = 'active';
 @endphp
 
-<ul class="navbar-nav bg-slate-600 sidebar sidebar-dark accordion font-weight-bold toggled" id="accordionSidebar">
+<ul class="navbar-nav bg-white sidebar sidebar-dark accordion font-weight-bold toggled" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center" href="{{ route('home') }}">
         {{-- <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div> --}}
-        <div class="sidebar-brand-text mx-3"> {{ config('app.name', 'Laravel') }} <sup>v1</sup></div>
+        {{-- <div class="sidebar-brand-text mx-3"> {{ config('app.name', 'Laravel') }} <sup>v1</sup></div> --}}
+        <div class="sidebar-brand-text"> <img src="{{asset('app-img/logo-dalasta.png')}}" height="50px"></div>
     </a>
 
     <!-- Divider -->
     {{-- <hr class="sidebar-divider my-0"> --}}
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{ $currentUrl == 'home' ? $currentUrlCls : '' }}" data-toggle="tooltip" data-placement="right"
+    <li class="nav-item {{ $currentUrl == 'home' ? $currentUrlCls : '' }} mt-4" data-toggle="tooltip" data-placement="right"
         title="Home">
         <a class="nav-link" href="{{ route('home') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -46,9 +47,9 @@ $currentUrlCls = 'active';
     </li>
 
     <hr class="sidebar-divider d-none d-md-block">
-    <div class="text-center d-none d-md-inline">
+    {{-- <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
+    </div> --}}
 
     {{-- <li class="nav-item {{$currentUrl == 'transactions' ? $currentUrlCls : ''}}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"

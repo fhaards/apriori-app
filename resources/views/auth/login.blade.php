@@ -1,18 +1,23 @@
 @extends('layouts.app')
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
+@section('content-login')
+    <div class="container-fluid my-auto my-5 bg-slate-100 "  style="height:100vh;">
+        <div class="row justify-content-center my-auto align-items-center mx-md-3 mx-sm-2" style="height:100vh;">
             <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card o-hidden border-0 shadow-lg" id="login-pages-form">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-primary"></div>
+                            <div class="col-lg-6 d-none d-lg-block side-image"></div>
                             <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                <div class="p-sm-4 p-md-5 p-3">
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <div class="text-left">
+                                            <h1 class="h4 text-gray-900 mb-4"></h1>
+                                        </div>
+                                        <div>
+                                            <img src="{{asset('app-img/logo-dalasta.png')}}" height="100px">
+                                        </div>
                                     </div>
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf

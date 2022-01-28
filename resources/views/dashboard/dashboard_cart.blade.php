@@ -54,15 +54,15 @@
                 </div>
                 <div class="mt-1 small text-center">
                     <span class="mr-2 mb-2">
-                        <i class="fas fa-circle text-primary"></i>
+                        <i class="fas fa-circle text-chart-1"></i>
                         <span class="name_1"></span>
                     </span>
                     <span class="mr-2 mb-2">
-                        <i class="fas fa-circle text-success"></i>
+                        <i class="fas fa-circle text-chart-2"></i>
                         <span class="name_2"></span>
                     </span>
                     <span class="mr-2 mb-2">
-                        <i class="fas fa-circle text-info"></i>
+                        <i class="fas fa-circle text-chart-3"></i>
                         <span class="name_3"></span>
                     </span>
                 </div>

@@ -29,7 +29,7 @@
 <body id="page-top">
     <div id="wrapper" class="">
         @guest
-            @yield('content')
+            @yield('content-login')
         @else
             @include('layouts.sidebar')
             <!-- Content Wrapper -->
@@ -37,7 +37,7 @@
                 <div id="content">
                     @include('layouts.topbar')
                     <!-- Main Content -->
-                    <div class="container-fluid py-0 py-5 main-contents">
+                    <div class="container-fluid py-sm-4 py-3 main-contents">
                         @yield('content')
                     </div>
                 </div>

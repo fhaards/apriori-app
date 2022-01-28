@@ -33,17 +33,19 @@ var thisTablesUses = $("#table-products").DataTable({
             orderable: false,
             render: function (data, type, row, meta) {
                 return (
-                '<div class="dropdown no-arrow text-right">'+
-                    '<button class="btn btn-sm bg-slate-600 rounded-lg dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-                        '<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-100"></i>'+
-                    '</button>'+
-                    '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">'+
-                        '<a type="button" class="dropdown-item text-success add-stock"' + '" product-id="' + row.id + '"/><i class="fas fa-plus fa-xs mr-1"></i> Change Stock</a>'+
-                        '<a type="button" class="dropdown-item text-warning edit"' + '" product-id="' + row.id + '" value="Edit"/><i class="fas fa-pencil-alt fa-xs mr-1"></i> Edit </a>'+
-                        '<div class="dropdown-divider"></div>'+
-                        '<a type="button" class="dropdown-item text-danger delete"' + '" product-name="'+row.name+' ('+row.type+')'+'" product-id="' + row.id + '" value="Edit"/><i class="fas fa-trash fa-xs mr-1"></i> Delete </a>'+
-                    '</div>'+
-                '</div>'
+                    '<div class="d-flex flex-row justify-content-end">'+
+                        '<a type="button" class="btn btn-sm btn-primary rounded-lg mr-2 add-stock"' + '" product-id="' + row.id + '"/><i class="fas fa-cubes fa-xs"></i></a>'+
+                        '<div class="dropdown no-arrow text-right">'+
+                            '<button class="btn btn-sm bg-slate-600 rounded-lg dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                                '<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-100"></i>'+
+                            '</button>'+
+                            '<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">'+
+                                '<a type="button" class="dropdown-item text-warning edit"' + '" product-id="' + row.id + '" value="Edit"/><i class="fas fa-pencil-alt fa-xs mr-1"></i> Edit </a>'+
+                                '<div class="dropdown-divider"></div>'+
+                                '<a type="button" class="dropdown-item text-danger delete"' + '" product-name="'+row.name+' ('+row.type+')'+'" product-id="' + row.id + '" value="Edit"/><i class="fas fa-trash fa-xs mr-1"></i> Delete </a>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'
                 );
                 // return (
                 //     '<div class="d-flex justify-content-around">' +
@@ -120,11 +122,11 @@ $("#table-products tbody").on("click", ".add-stock", function () {
     console.log(productAddStock);
     Swal.fire({
         html: `<div class="d-flex flex-column align-items-center w-100 p-2">
-                    <label>+ Change Stock Number Value</label>
-                    <input id="stock-count" type="number" class="border-top py-2 swal2-input form-control w-100">
+                    <div class="d-flex align-items-center justify-content-center"><i class="fas fa-cubes mr-2"></i><label>Change number of stocks</label></div>
+                    <input id="stock-count" type="number" placeholder="Input new stock" class="border-top py-2 swal2-input form-control w-100">
                </div>`,
         confirmButtonText: "Submit",
-        confirmButtonColor: "#4E73DF",
+        confirmButtonColor: "#15803d",
         focusConfirm: false,
         preConfirm: () => {
             const stockadd = Swal.getPopup().querySelector("#stock-count").value;
@@ -226,7 +228,7 @@ $("#table-products tbody").on("click", ".delete", function (e) {
                         swal.fire({
                             allowEscapeKey: false,
                             allowOutsideClick: false,
-                            timer: 1000,
+                            timer: 500,
                             didOpen: () => {
                                 swal.showLoading();
                             },
@@ -238,7 +240,7 @@ $("#table-products tbody").on("click", ".delete", function (e) {
                                     text: succMessages,
                                     showConfirmButton: false,
                                     allowOutsideClick: false,
-                                    timer: 1000,
+                                    timer: 500,
                                 }).then((result) => {
                                     if (
                                         result.dismiss ===
