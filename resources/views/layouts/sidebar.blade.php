@@ -11,8 +11,9 @@ $currentUrlCls = 'active';
         {{-- <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div> --}}
+        <div class="sidebar-brand-icon"> <img src="{{asset('app-img/logo/logo-dalasta-icon-ai-small.png')}}" height="45px"></div>
         {{-- <div class="sidebar-brand-text mx-3"> {{ config('app.name', 'Laravel') }} <sup>v1</sup></div> --}}
-        <div class="sidebar-brand-text"> <img src="{{asset('app-img/logo-dalasta.png')}}" height="50px"></div>
+        <div class="sidebar-brand-text"> <img src="{{asset('app-img/logo-dalasta.png')}}" class="mt-2"  height="50px"></div>
     </a>
 
     <!-- Divider -->

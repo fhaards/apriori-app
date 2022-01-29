@@ -21,12 +21,12 @@ class CountController extends Controller
         $data = [];
 
         $findDataList = DB::table('transactions_lists as tr')
-            ->select(DB::raw('prd.id as prod_id,prd.type'))
+            ->select(DB::raw('prd.id as prod_id,prd.name'))
             ->addSelect(DB::raw('SUM(tr.subtotal_qty) as subqty, 
                             SUM(tr.subtotal_price) as subprice'))
             ->join('products as prd', 'tr.product_id', '=', 'prd.id')
             ->groupBy('prd.id')
-            ->groupBy('prd.type')
+            ->groupBy('prd.name')
             ->orderBy('subprice', 'DESC')
             ->limit('3')
             ->get();
@@ -45,7 +45,7 @@ class CountController extends Controller
         foreach ($findDataList as $dtlist) :
             $data[] = [
                 'product_id'   => $dtlist->prod_id,
-                'product_name' => $dtlist->type,
+                'product_name' => $dtlist->name,
                 'total_qty'    => $dtlist->subqty,
                 'total_price'  => $dtlist->subprice,
                 // 'subtotal_price' => 'Rp ' . number_format($dtlist->subtotal_price, 0)

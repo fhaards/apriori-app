@@ -2571,7 +2571,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #15803d;
   border-color: #16a34a;
-  box-shadow: 0 0 0 0.2rem rgba(185, 247, 197, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(21, 128, 61,0.5);
 }
 
 .btn-primary.disabled, .btn-primary:disabled {
@@ -2589,7 +2589,7 @@ fieldset:disabled a.btn {
 
 .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
 .show>.btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem rgba(185, 247, 197, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(21, 128, 61,0.5);
 }
 
 .btn-secondary {

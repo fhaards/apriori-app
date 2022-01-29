@@ -18,9 +18,11 @@
 }
 
 .jumbotron{
-    background: url('../../app-img/bg-2.jpg') center center no-repeat;
+    background: url('../../app-img/bg-2.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size: cover;
-    height: 200px;
 }
 .jumbotron::before{
     content: "";

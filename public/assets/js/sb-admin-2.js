@@ -6,10 +6,14 @@
     // $('[data-toggle="tooltip"]').tooltip('hide');
     $('[data-toggle="tooltip"]').tooltip();
     $("#sidebarToggle, #sidebarToggleTop").on("click", function (e) {
+        e.preventDefault();
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
         if ($(".sidebar").hasClass("toggled")) {
             $(".sidebar .collapse").collapse("hide");
+            $(".sidebar-brand-icon").removeClass("d-none");
+        } else {
+            $(".sidebar-brand-icon").addClass("d-none");
         }
     });
 
