@@ -25,7 +25,7 @@
                             @foreach ($list as $keyList => $trans)
                                 <tr>
                                     @foreach ($trans as $key2 => $translist)
-                                        <td>
+                                        <td class="text-center">
                                             {{ $translist }}
                                         </td>
                                     @endforeach
@@ -39,31 +39,14 @@
         </div>
     </div>
 
-    @foreach ($combineResults as $getkeyCr => $cr)
-        @php $getkeyCr++;@endphp
-        @foreach ($cr as $kcr => $crItems)
-            <div class="accordion my-3" id="@php print_r($crItems); @endphp">
-                <div class="card">
-                    <div class="card-header bg-gray-900" type="button" id="heading{{ $getkeyCr }}" data-toggle="collapse"
-                        data-target="#collapse{{ $getkeyCr }}" aria-expanded="true" aria-controls="collapseOne">
-                        <h5 class="mb-0 text-white font-weight-bold">
-                            Combination {{ $getkeyCr }}
-                        </h5>
-                    </div>
+    @php $countTrans; @endphp
 
-                    <div id="collapse{{ $getkeyCr }}" class="collapse show"
-                        aria-labelledby="heading{{ $getkeyCr }}" data-parent="#@php print_r($crItems); @endphp">
-                        <div class="card-body">
-                            Some placeholder content for the first accordion panel. This panel is shown by default, thanks
-                            to
-                            the
-                            <code>.show</code> class.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    @endforeach
-
+    <div id="apriori-results">
+        @include('apriori.apriori_combine_1')
+    </div>
 
 @endsection
+
+{{-- @push('js-app')
+    <script src="{{ asset('js-app/app-apriori-comb.js') }}"></script>
+@endpush --}}

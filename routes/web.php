@@ -33,6 +33,9 @@ Route::group(['middleware' => 'auth'], function () {
     | Apriori Routes
     |--------------------------------------------------------------------------*/
     Route::resource('apriori-analysis', AprioriController::class);
+    Route::get('apriori-analysis/combine1/proccess', [App\Http\Controllers\AprioriController::class, 'comb1proccessJson']);
+    Route::get('apriori-analysis/combine1/rules', [App\Http\Controllers\AprioriController::class, 'comb1rulesJson']);
+    Route::get('apriori-analysis/testing/test', [App\Http\Controllers\AprioriController::class, 'testing']);
     // Route::post('apriori-analysis/combine-results/', [App\Http\Controllers\AprioriController::class, 'combine-results']);
 
     /*--------------------------------------------------------------------------
@@ -41,16 +44,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('count/revenue-sources', [App\Http\Controllers\CountController::class, 'revenueSource']);
     Route::get('count/earnings-overview', [App\Http\Controllers\CountController::class, 'earningsOverview']);
 
-    // Route::get('apriori-analysis/combine/test', [App\Http\Controllers\AprioriController::class, 'combineTest']);
-    // Route::get('apriori-analysis/combine/test2', [App\Http\Controllers\AprioriController::class, 'combineTest2']);
-    // Route::get('apriori-analysis/combine/test3', [App\Http\Controllers\AprioriController::class, 'combineTest3']);
-    // Route::get('apriori-analysis/combine/test4', [App\Http\Controllers\AprioriController::class, 'combineTest4']);
-    // Route::get('apriori-analysis/combine/test5', [App\Http\Controllers\AprioriController::class, 'combineTest5']);
-    // Route::get('apriori-analysis/combine/test6', [App\Http\Controllers\AprioriController::class, 'combineTest6']);
-    // Route::get('apriori-analysis/combine/test7', [App\Http\Controllers\AprioriController::class, 'combineTest7']);
-    // Route::get('apriori-analysis/combine/test8', [App\Http\Controllers\AprioriController::class, 'combineTest8']);
-    // Route::get('apriori-analysis/combine/test9', [App\Http\Controllers\AprioriController::class, 'combineTest9']);
-    // Route::get('apriori-analysis/combine/test10', [App\Http\Controllers\AprioriController::class, 'combineTest10']);
-    // Route::get('apriori-analysis/combine/test11', [App\Http\Controllers\AprioriController::class, 'combineTest11']);
-    // Route::get('apriori-analysis/combine/test12', [App\Http\Controllers\AprioriController::class, 'combineTest12']);
 });

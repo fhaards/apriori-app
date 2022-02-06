@@ -35,6 +35,149 @@ class _Test_AprioriController extends Controller
         //
     }
 
+    public function comb1proccessJson(Request $request)
+    {
+        $data = [];
+        $totalData = 0;
+        $totalDataFiltered = 0;
+        $findData = null;
+
+
+        $draw = $request->input('draw');
+        $dateFilter = $request->get('date');
+        $limit =  ($request->get('limit') ? $request->get('limit')  : 100);
+
+        $sumAllTrans = APHELP::sumAllTransaction();
+        $sumAlltransF = (float)$sumAllTrans;
+
+        $findData =  DB::table('transactions_lists as tr')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.id')
+            ->select('product_id', 'name')
+            ->selectRaw('count(product_id) as count')
+            ->addSelect(DB::raw('SUM(tr.subtotal_qty) as subqty'))
+            ->groupBy('product_id', 'name')
+            ->orderBy('subqty', 'DESC')
+            ->paginate($limit);
+
+        if ($findData->total() > 0) {
+            foreach ($findData as $prd) {
+                $countPrd = (float)$prd->count;
+                $gsupport = $countPrd / $sumAlltransF;
+                $gconfide = $countPrd / $countPrd;
+                $data[] = [
+                    'name'    => $prd->name,
+                    'support' => "Support = " . $countPrd . " / " . $sumAlltransF . " = " . $gsupport,
+                    'confidence' => "Confidence = " . $countPrd . " / " . $countPrd . " = " . $gconfide,
+                ];
+            }
+
+            $totalData = $findData->total();
+            $totalDataFiltered = $limit;
+        }
+
+        $response = array(
+            'draw' => $draw,
+            'recordsTotal' => $totalData,
+            'recordsFiltered' => $totalDataFiltered,
+            'data' => $data
+        );
+
+        return json_encode($response);
+    }
+
+    public function comb1rulesJson(Request $request)
+    {
+        $data = [];
+        $totalData = 0;
+        $totalDataFiltered = 0;
+        $findData = null;
+        $tsup  = "";
+        $tconf = "";
+        // $tss1 = floatval($ts1);
+
+
+        $draw = $request->input('draw');
+        $dateFilter = $request->get('date');
+        $limit =  ($request->get('limit') ? $request->get('limit')  : 100);
+
+        $sumAllTrans = APHELP::sumAllTransaction();
+        $sumAlltransF = (float)$sumAllTrans;
+
+        $findData =  DB::table('transactions_lists as tr')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.id')
+            ->select('product_id', 'name')
+            ->selectRaw('count(product_id) as count')
+            ->addSelect(DB::raw('SUM(tr.subtotal_qty) as subqty'))
+            ->groupBy('product_id', 'name')
+            ->orderBy('subqty', 'DESC')
+            ->paginate($limit);
+
+        if ($findData->total() > 0) {
+            foreach ($findData as $prd) {
+                $prodname = $prd->name;
+                $countPrd = (float)$prd->count;
+                $gsupport = (float)$countPrd / $sumAlltransF;
+                $gconfide = (float)$countPrd / $countPrd;
+                $supxconf = (float)$gsupport * $gconfide;
+                // if ($gsupport > $tss1) :
+                //     $tsup = "YES";
+                // else :
+                //     $tsup = "NO";
+                // endif;
+
+                // if ($gconfide > $tss1) :
+                //     $tconf = "YES";
+                // else :
+                //     $tconf = "NO";
+                // endif;
+
+                $data[] = [
+                    'rules'      => "If buy " . $prodname . " Then buy" . $prodname,
+                    'support'    => $gsupport,
+                    'confidence' => $gconfide,
+                    'supxconf'   => $gsupport,
+                    'tsup'       => $tsup,
+                    'tconf'       => $tconf,
+                ];
+            }
+
+            $totalData = $findData->total();
+            $totalDataFiltered = $limit;
+        }
+
+        $response = array(
+            'draw' => $draw,
+            'recordsTotal' => $totalData,
+            'recordsFiltered' => $totalDataFiltered,
+            'data' => $data
+        );
+
+        return json_encode($response);
+    }
+
+    public function testCombProcess(Request $request)
+    {
+        $data = [];
+        $totalData = 0;
+        $totalDataFiltered = 0;
+        $findData = null;
+
+        $sumAllTrans = APHELP::sumAllTransaction();
+        $sumAlltransF = (float)$sumAllTrans;
+
+        $prodlist = APHELP::getProductCount();
+        foreach ($prodlist as $prd) {
+            $countPrd = (float)$prd->count;
+            $gsupport = $countPrd / $sumAlltransF;
+            $gconfide = $countPrd / $countPrd;
+            $data[] = [
+                'support' => $gsupport,
+                'confide' => $gconfide,
+            ];
+        }
+        echo json_encode($data);
+    }
+
     public function store(Request $request)
     {
         //

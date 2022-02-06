@@ -17,7 +17,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/sweetalert2/sweetalert2.material-ui.min.css') }}" media="all" rel="stylesheet"
         type="text/css" />
     <link href="{{ asset('assets/css/daterangepicker.css') }}" media="all" rel="stylesheet" type="text/css" />
@@ -50,19 +50,19 @@
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Datatables-->
+    <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('assets/jquery-easing/jquery.easing.min.js') }}"></script>
+
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>
     <!-- Scripts -->
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/daterangepicker.js') }}"></script>
-    <!-- Datatables -->
-    <script src="{{ asset('assets/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <!-- Carts -->
     <script src="{{ asset('assets/chart.js/Chart.min.js') }}"></script>
-
     <!-- Sweetalert -->
     <script src="{{ asset('assets/sweetalert2/sweetalert2.all.min.js') }}"></script>
     {{-- Aos Animate Master --}}

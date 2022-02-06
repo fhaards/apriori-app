@@ -9,11 +9,29 @@ use App\Models\transactions_list as TRSLIST;
 
 class AprioriHelpers
 {
+    public static function sumAllTransaction()
+    {
+        $getdata = TRS::count();
+        return $getdata;
+    }
+
+    public static function sumAllProducts()
+    {
+        $totalData = 0;
+        $findData = null;
+        $findData = TRSLIST::selectRaw('product_id')->groupBy('product_id')->paginate(5);
+        if ($findData->total() > 0) {
+            $totalData = $findData->total();
+        }
+        return $totalData;
+    }
+
     public static function getAprioriTable($getArray)
     {
         $getArray = [];
         $qty      = [];
         $countProduct = 0;
+        $arrPrd = [];
 
         $listProduct = DB::table('transactions_lists as tr')
             ->join('products as prd', 'tr.product_id', '=', 'prd.id')
@@ -22,11 +40,10 @@ class AprioriHelpers
             ->groupBy('prd.id', 'prd.name', 'prd.type')
             ->orderBy('subqty', 'DESC');
 
-
         $listTransact2 = TRS::get();
         $loopProduct   = $listProduct->get();
-        $countProduct  = $loopProduct->count() - 1;
-        $cTrans       = $listTransact2->count();
+        // $countProduct  = $loopProduct->count() - 1;
+        $cTrans        = $listTransact2->count();
         $listTransact  = TRS::get();
 
         foreach ($listTransact as $key => $tr) {
@@ -64,13 +81,17 @@ class AprioriHelpers
                 $idtrans => $groups[$key],
             ];
         }
-        // $getArray[] = [
-        //     'count' => $cTrans,
-        //     'data'  => [
-        //         $idtrans => $groups
-        //     ],
-        // ];
-        // echo json_encode($getArray);
+        return $getArray;
+    }
+
+    public static function getProductCount()
+    {
+        $getArray = [];
+        $getArray = TRSLIST::select('product_id')
+            ->selectRaw('count(product_id) as count')
+            ->groupBy('product_id')
+            ->orderBy('count', 'DESC')
+            ->get();
         return $getArray;
     }
 }
