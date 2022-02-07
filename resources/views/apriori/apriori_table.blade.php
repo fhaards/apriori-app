@@ -3,12 +3,22 @@
 @section('content')
 
     @include('layouts.header-pages')
-    {{-- {{ $headerpages }} --}}
 
+    {{-- {{ $headerpages }} --}}
+    <input type="hidden" id="get-support-1" value="{{ $ts1 }}">
+    <input type="hidden" id="get-supxcon-1" value="{{ $tc1 }}">
+    <input type="hidden" id="get-support-2" value="{{ $ts2 }}">
+    <input type="hidden" id="get-supxcon-2" value="{{ $tc2 }}">
+    <div class="mb-5">
+        <p class="h5">
+            Analyzing using Data Mining with Market Basket Analysis Methods
+        </p>
+    </div>
     <div class="card py-0">
         <div class="card-header bg-green-700 py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-white">Analyzing using Data Mining with Market Basket Analysis Methods
-            </h6>
+            <h5 class="mb-0 text-white font-weight-bold text-uppercase text-center tracking-widest">
+                Transaction Count
+            </h5>
         </div>
         <div class="card-body text-sm">
             <div class="table-responsive">
@@ -41,10 +51,11 @@
 
     <div id="apriori-results">
         @include('apriori.apriori_combine_1')
+        @include('apriori.apriori_combine_2')
     </div>
 
 @endsection
 
-{{-- @push('js-app')
+@push('js-app')
     <script src="{{ asset('js-app/app-apriori-comb.js') }}"></script>
-@endpush --}}
+@endpush

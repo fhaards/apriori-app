@@ -2571,7 +2571,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #15803d;
   border-color: #16a34a;
-  box-shadow: 0 0 0 0.2rem rgba(21, 128, 61,0.5);
+  box-shadow: 0 0 0 0.2rem rgba(21, 128, 61, 0.5);
 }
 
 .btn-primary.disabled, .btn-primary:disabled {
@@ -2589,7 +2589,7 @@ fieldset:disabled a.btn {
 
 .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
 .show>.btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem rgba(21, 128, 61,0.5);
+  box-shadow: 0 0 0 0.2rem rgba(21, 128, 61, 0.5);
 }
 
 .btn-secondary {
@@ -3120,8 +3120,8 @@ fieldset:disabled a.btn {
 
 .btn-link:focus, .btn-link.focus {
   text-decoration: underline;
-  color:#166534;
-  box-shadow:none;
+  color: #166534;
+  box-shadow: none;
   /* box-shadow: 0 0 0 0.2rem rgba(185, 247, 197, 0.5); */
 }
 
@@ -8064,8 +8064,32 @@ button.bg-dark:focus {
   box-shadow: none !important;
 }
 
+.w-10 {
+  width: 10% !important;
+}
+
+.w-15 {
+  width: 15% !important;
+}
+
+.w-20 {
+  width: 20% !important;
+}
+
 .w-25 {
   width: 25% !important;
+}
+
+.w-30 {
+  width: 30% !important;
+}
+
+.w-40 {
+  width: 40% !important;
+}
+
+.w-45 {
+  width: 45% !important;
 }
 
 .w-50 {
@@ -10699,6 +10723,7 @@ a:focus {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
+
 body::-webkit-scrollbar {
   width: 0px;
 }
@@ -10716,7 +10741,7 @@ body::-webkit-scrollbar {
 /* Handle */
 .main-contents::-webkit-scrollbar-thumb {
   background: #d1d5db;
-  border-radius:50px;
+  border-radius: 50px;
 }
 
 /* Handle on hover */
@@ -11616,7 +11641,8 @@ body::-webkit-scrollbar {
 
 .sidebar-dark .nav-item .nav-link {
   /* color: rgba(255, 255, 255, 0.8); */
-  color:  #111827; /*slate 800*/
+  color: #111827;
+  /*slate 800*/
 }
 
 /* .sidebar-dark .nav-item .nav-link i {
@@ -11651,10 +11677,11 @@ body::-webkit-scrollbar {
   background-color: #15803d;
   transition: 0.3s;
   /* border-radius: 0.75rem; */
-  border-right:3px solid #166534;
+  border-right: 3px solid #166534;
   width: 100%;
   color: #fff;
 }
+
 /* 
 .sidebar-dark .nav-item.active .nav-link i {
   color: #fff;

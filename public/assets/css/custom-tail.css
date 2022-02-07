@@ -6,7 +6,7 @@
     height: 1px;
 }
 
-.h-0.5 {
+.h-0Per5 {
     height: 0.125rem;
 }
 
@@ -14,7 +14,7 @@
     height: 0.25rem;
 }
 
-.h-1.5 {
+.h-1Per5 {
     height: 0.375rem;
 }
 
@@ -22,7 +22,7 @@
     height: 0.5rem;
 }
 
-.h-2.5 {
+.h-2Per5 {
     height: 0.625rem;
 }
 
@@ -30,7 +30,7 @@
     height: 0.75rem;
 }
 
-.h-3.5 {
+.h-3Per5 {
     height: 0.875rem;
 }
 
@@ -220,4 +220,28 @@
 
 .h-fit {
     height: fit-content;
+}
+
+.tracking-tighter {
+    letter-spacing: -0.05em;
+}
+
+.tracking-tight {
+    letter-spacing: -0.025em;
+}
+
+.tracking-normal {
+    letter-spacing: 0em;
+}
+
+.tracking-wide {
+    letter-spacing: 0.025em;
+}
+
+.tracking-wider {
+    letter-spacing: 0.05em;
+}
+
+.tracking-widest {
+    letter-spacing: 0.1em;
 }

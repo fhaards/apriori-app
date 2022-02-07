@@ -33,6 +33,9 @@ Route::group(['middleware' => 'auth'], function () {
     | Apriori Routes
     |--------------------------------------------------------------------------*/
     Route::resource('apriori-analysis', AprioriController::class);
+    Route::get('apriori-analysis/combine2/proccess', [App\Http\Controllers\AprioriController::class, 'combineSecondProccess']);
+    Route::get('apriori-analysis/combine2/rules', [App\Http\Controllers\AprioriController::class, 'combineSecondRules']);
+
     Route::get('apriori-analysis/combine1/proccess', [App\Http\Controllers\AprioriController::class, 'comb1proccessJson']);
     Route::get('apriori-analysis/combine1/rules', [App\Http\Controllers\AprioriController::class, 'comb1rulesJson']);
     Route::get('apriori-analysis/testing/test', [App\Http\Controllers\AprioriController::class, 'testing']);

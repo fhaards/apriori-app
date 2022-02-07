@@ -119,6 +119,7 @@ class _Test_AprioriController extends Controller
                 $gsupport = (float)$countPrd / $sumAlltransF;
                 $gconfide = (float)$countPrd / $countPrd;
                 $supxconf = (float)$gsupport * $gconfide;
+
                 // if ($gsupport > $tss1) :
                 //     $tsup = "YES";
                 // else :
@@ -137,7 +138,7 @@ class _Test_AprioriController extends Controller
                     'confidence' => $gconfide,
                     'supxconf'   => $gsupport,
                     'tsup'       => $tsup,
-                    'tconf'       => $tconf,
+                    'tconf'      => $tconf,
                 ];
             }
 
