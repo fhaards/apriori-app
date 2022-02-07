@@ -103,10 +103,35 @@ class AprioriController extends Controller
     public function testing(Request $request)
     {
         $data = [];
-        $data = [
-            'Count Trans' => APHELP::sumAllTransaction(),
-            'Count Products' => APHELP::sumAllProducts()
-        ];
+        $findData = DB::table('transactions_lists as tr')
+            ->join('products as prd', 'tr.product_id', '=', 'prd.id')
+            ->select('product_id', 'name')
+            ->groupBy('product_id', 'name')
+            ->get();
+
+        foreach ($findData as $dt) {
+            $prd1 = $dt->product_id;
+            $findData2 = DB::table('transactions_lists as tr')
+                ->join('products as prd', 'tr.product_id', '=', 'prd.id')
+                ->select('product_id', 'name')
+                ->addSelect(DB::raw('SUM(tr.subtotal_qty) as subqty'))
+                ->whereNotIn('product_id', [$dt->product_id])
+                ->groupBy('product_id', 'name')
+                ->get();
+
+            foreach ($findData2 as $dt2) {
+                $prd2 = $dt2->product_id;
+                $findData3 = TRSLIST::whereIn('product_id', [$prd1, $prd2])->groupBy('product_id');
+                $counts = $findData3->count();
+
+                $data[] = [
+                    'ProductID' => $dt->product_id . "," . $dt2->product_id,
+                    'ProductName' => $dt->name . "," . $dt2->name,
+                    'Count' =>  $counts
+                ];
+            }
+        }
+
         echo json_encode($data);
     }
 

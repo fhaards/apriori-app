@@ -21,7 +21,6 @@
                             @endforeach
                         </tr>
                         @foreach ($getArray as $key => $list)
-
                             @foreach ($list as $keyList => $trans)
                                 <tr>
                                     @foreach ($trans as $key2 => $translist)
@@ -31,7 +30,6 @@
                                     @endforeach
                                 </tr>
                             @endforeach
-
                         @endforeach
                     </thead>
                 </table>
