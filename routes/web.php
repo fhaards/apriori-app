@@ -47,4 +47,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('count/revenue-sources', [App\Http\Controllers\CountController::class, 'revenueSource']);
     Route::get('count/earnings-overview', [App\Http\Controllers\CountController::class, 'earningsOverview']);
 
+    /*--------------------------------------------------------------------------
+    | Records
+    |--------------------------------------------------------------------------*/
+    Route::get('reports/list', [App\Http\Controllers\ReportsController::class, 'index'])->name('reports-list');
+    Route::get('reports/trans/day/{reports}', [App\Http\Controllers\ReportsController::class, 'reportsTransDay']);
+
 });

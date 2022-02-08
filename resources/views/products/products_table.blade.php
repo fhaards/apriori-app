@@ -11,7 +11,7 @@
             </button>
         </div>
         <div class="card-body text-sm">
-            <div class="table-responsive">
+            <div class="table-responsive py-4">
                 <table class="table table-striped table-hover" id="table-products" width="100%" cellspacing="0">
                     <thead>
                         <tr>

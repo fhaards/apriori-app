@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="table-responsive px-3 mt-3 mb-3 py-3">
+            <div class="table-responsive px-3 mt-3 mb-3 py-4">
                 <table class="table table-striped table-hover" id="table-transactions" width="100%" cellspacing="0">
                     <thead>
                         <tr>

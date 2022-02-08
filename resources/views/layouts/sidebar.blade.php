@@ -4,24 +4,27 @@ $currentUrl = Request::segment(1);
 $currentUrlCls = 'active';
 @endphp
 
-<ul class="navbar-nav bg-white sidebar sidebar-dark accordion font-weight-bold toggled" id="accordionSidebar">
+<ul class="navbar-nav bg-white sidebar sidebar-dark accordion font-weight-bold border-right toggled"
+    id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center" href="{{ route('home') }}">
         {{-- <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div> --}}
-        <div class="sidebar-brand-icon"> <img src="{{asset('app-img/logo/logo-dalasta-icon-ai-small.png')}}" height="45px"></div>
+        <div class="sidebar-brand-icon"> <img src="{{ asset('app-img/logo/logo-dalasta-icon-ai-small.png') }}"
+                height="45px"></div>
         {{-- <div class="sidebar-brand-text mx-3"> {{ config('app.name', 'Laravel') }} <sup>v1</sup></div> --}}
-        <div class="sidebar-brand-text"> <img src="{{asset('app-img/logo-dalasta.png')}}" class="mt-2"  height="50px"></div>
+        <div class="sidebar-brand-text"> <img src="{{ asset('app-img/logo-dalasta.png') }}" class="mt-2"
+                height="50px"></div>
     </a>
 
     <!-- Divider -->
     {{-- <hr class="sidebar-divider my-0"> --}}
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{ $currentUrl == 'home' ? $currentUrlCls : '' }} mt-4" data-toggle="tooltip" data-placement="right"
-        title="Home">
+    <li class="nav-item {{ $currentUrl == 'home' ? $currentUrlCls : '' }} mt-4" data-toggle="tooltip"
+        data-placement="right" title="Home">
         <a class="nav-link" href="{{ route('home') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
@@ -32,19 +35,30 @@ $currentUrlCls = 'active';
         data-placement="right" title="Products">
         <a class="nav-link" href="{{ route('products.index') }}">
             <i class="fas fa-fw fa-box"></i>
-            <span>Product</span></a>
+            <span>Product</span>
+        </a>
     </li>
     <li class="nav-item {{ $currentUrl == 'transactions' ? $currentUrlCls : '' }}" data-toggle="tooltip"
         data-placement="right" title="Transactions">
         <a class="nav-link" href="{{ route('transactions.index') }}">
             <i class="fas fa-fw fa-money-bill-wave"></i>
-            <span>Transaction</span></a>
+            <span>Transaction</span>
+        </a>
     </li>
     <li class="nav-item {{ $currentUrl == 'apriori-analysis' ? $currentUrlCls : '' }}" data-toggle="tooltip"
         data-placement="right" title="Apriori Analytics">
         <a class="nav-link" href="{{ route('apriori-analysis.index') }}">
             <i class="fas fa-fw fa-chart-bar"></i>
-            <span>Apriori Analysis</span></a>
+            <span>Apriori Analysis</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ $currentUrl == 'reports' ? $currentUrlCls : '' }}" data-toggle="tooltip"
+        data-placement="right" title="Reports">
+        <a class="nav-link" href="{{ route('reports-list') }}">
+            <i class="fas fa-fw fa-print"></i>
+            <span>Reports</span>
+        </a>
     </li>
 
     <hr class="sidebar-divider d-none d-md-block">

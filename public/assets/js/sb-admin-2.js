@@ -62,9 +62,9 @@
     $("#content .main-contents").on("scroll", function () {
         var scrollDistance = $(this).scrollTop();
         if (scrollDistance > 10) {
-            $(".navbar").addClass('shadow-lg');
+            $(".navbar").addClass('shadow-sm border-bottom');
         } else {
-            $(".navbar").removeClass('shadow-lg');
+            $(".navbar").removeClass('shadow-sm border-bottom');
         }
     });
 
