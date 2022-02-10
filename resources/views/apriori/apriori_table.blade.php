@@ -9,6 +9,9 @@
     <input type="hidden" id="get-supxcon-1" value="{{ $tc1 }}">
     <input type="hidden" id="get-support-2" value="{{ $ts2 }}">
     <input type="hidden" id="get-supxcon-2" value="{{ $tc2 }}">
+    <input type="hidden" id="get-support-3" value="{{ $ts3 }}">
+    <input type="hidden" id="get-supxcon-3" value="{{ $tc3 }}">
+
     <div class="mb-5">
         <p class="h5">
             Analyzing using Data Mining with Market Basket Analysis Methods
@@ -50,12 +53,30 @@
     @php $countTrans; @endphp
 
     <div id="apriori-results">
-        @include('apriori.apriori_combine_1')
-        @include('apriori.apriori_combine_2')
+
+        <div class="combination-load">
+            <div class="d-flex bg-green-700 text-white rounded-xl align-items-center justify-content-center  py-2 my-3">
+                <div class="mr-4"><strong>Loading Combination...</strong></div>
+                <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div>
+            </div>
+        </div>
+
+        <div class="combination-results-1 d-none">
+            @include('apriori.apriori_combine_1')
+        </div>
+        <div class="combination-results-2 d-none">
+            @include('apriori.apriori_combine_2')
+        </div>
+        <div class="combination-results-3 d-none">
+            @include('apriori.apriori_combine_3')
+        </div>
+
     </div>
 
 @endsection
 
 @push('js-app')
-    <script src="{{ asset('js-app/app-apriori-comb.js') }}"></script>
+    <script src="{{ asset('js-app/app-apriori.js') }}"></script>
+    <script src="{{ asset('js-app/app-apriori-comb2.js') }}"></script>
+    <script src="{{ asset('js-app/app-apriori-comb3.js') }}"></script>
 @endpush

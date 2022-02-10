@@ -54,6 +54,11 @@
                                 <td width="25%"><input type="text" name="ts2" class="form-control w-25" value="0.1"></td>
                                 <td width="25%"><input type="text" name="tc2" class="form-control w-25" value="0.0"></td>
                             </tr>
+                            <tr>
+                                <td width="40%">3 Product</td>
+                                <td width="25%"><input type="text" name="ts3" class="form-control w-25" value="0.0"></td>
+                                <td width="25%"><input type="text" name="tc3" class="form-control w-25" value="0.0"></td>
+                            </tr>
                         </thead>
                     </table>
                 </div>
