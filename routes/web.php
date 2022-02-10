@@ -52,5 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     |--------------------------------------------------------------------------*/
     Route::get('reports/list', [App\Http\Controllers\ReportsController::class, 'index'])->name('reports-list');
     Route::get('reports/trans/day/{reports}', [App\Http\Controllers\ReportsController::class, 'reportsTransDay']);
+    Route::get('reports/trans/month/{reports}', [App\Http\Controllers\ReportsController::class, 'reportsTransMonth']);
+    Route::get('reports/trans/year/{reports}', [App\Http\Controllers\ReportsController::class, 'reportsTransYear']);
 
 });

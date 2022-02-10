@@ -45,7 +45,7 @@ class TransactionsHelpers
                 $dataList[$key] = [
                     'items' => $v2->name,
                     'subqty' => $v2->subtotal_qty,
-                    'subprc' => $v2->subtotal_price,
+                    'subprc' => 'Rp ' . number_format($v2->subtotal_price, 0),
                 ];
             }
 

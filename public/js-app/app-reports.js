@@ -1,9 +1,21 @@
+// REPORT BY DAY
 var transactionReportDay = $("#trans-report-day");
 var reportDayCalendar = transactionReportDay.find(".report-trans-cal");
 var btnReportDay = transactionReportDay.find(".submit-report-day");
 var valueReportDay = "";
 
-// reportDayCalendar.val(moment().format("YYYY-MM-DD"));
+// REPORT BY MONTH
+var transactionReportMonth = $("#trans-report-month");
+var reportMontCalendar = transactionReportMonth.find(".report-trans-month");
+var btnReportMonth = transactionReportMonth.find(".submit-report-month");
+var valueReportMonth = null;
+
+// REPORT BY YEAR
+var transactionReportYear = $("#trans-report-year");
+var reportYearCalendar = transactionReportYear.find(".report-trans-year");
+var btnReportYear = transactionReportYear.find(".submit-report-year");
+var valueReportYear = null;
+
 reportDayCalendar.change(function (e) {
     e.preventDefault();
     valueReportDay = this.value;
@@ -17,12 +29,24 @@ btnReportDay.on("click", function (e) {
     window.open(WEB_URL + "/trans/day/" + getMomentDay);
 });
 
-// function submitReportsDay(getDayValue) {
-//     var getNewDateValue = getDayValue;
-//     btnReportDay.on("click", function (e) {
-//         e.preventDefault();
-//         // var getMomentDay = moment(getDayValue).format("DD/MM/YYYY");
-//         var getMomentDay = moment(getNewDateValue).format("DD/MM/YYYY");
-//         console.log(getMomentDay);
-//     });
-// }
+reportMontCalendar.change(function (e) {
+    e.preventDefault();
+    valueReportMonth = this.value;
+});
+
+btnReportMonth.on("click", function (e) {
+    e.preventDefault();
+    // console.log(reportMontCalendar.val());
+    window.open(WEB_URL + "/trans/month/" + valueReportMonth);
+});
+
+reportYearCalendar.change(function (e) {
+    e.preventDefault();
+    valueReportYear = this.value;
+});
+
+btnReportYear.on("click", function (e) {
+    e.preventDefault();
+    // console.log(reportMontCalendar.val());
+    window.open(WEB_URL + "/trans/year/" + valueReportYear);
+});
