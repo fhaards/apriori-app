@@ -457,15 +457,8 @@ class AprioriController extends Controller
             ->groupBy('product_id', 'name')
             ->get();
 
-        $newArr = [];
-        foreach ($findData as $keying => $val) {
-            $prd1    = $val->product_id;
-            $newArr[$keying] = $val;
-        }
-
-        $findData = array_values($newArr);
-        
-        foreach (array_reverse($findData) as $dt) {
+        foreach ($findData as $dt) {
+            $prd1 = $dt->product_id;
             $findData2 = DB::table('transactions_lists as tr')
                 ->join('products as prd', 'tr.product_id', '=', 'prd.id')
                 ->select(DB::raw('count(*) as countings'))
@@ -481,9 +474,8 @@ class AprioriController extends Controller
                         ->whereIn('product_id', [$prd1, $prd2])
                         ->groupBy('product_id');
 
-                    // $findData3 = TRSLIST::whereIn('product_id', [$prd1, $prd2])->groupBy('product_id');
+                    $findData3 = TRSLIST::whereIn('product_id', [$prd1, $prd2])->groupBy('product_id');
                     $counts = $findData3->count();
-                    $checkf = $findData3->first();
 
                     $findDataConfidence = TRSLIST::whereIn('product_id', [$prd1])->groupBy('product_id');
                     $countsConfidence = $findDataConfidence->count();
@@ -491,7 +483,6 @@ class AprioriController extends Controller
                     $gsupport = (float)$counts / $sumAlltransF; // TRANSAKSI A,B DIBAGI TOTAL TRANSAKSI
                     $gconfide = (float)$counts / $countsConfidence; // TRANSAKSI A,B DIBAGI TRANSAKSI A
                     $data[] = [
-                        'Counttable' => $checkf->countings,
                         'Counttable' => $prd1 . " --- " . $prd2,
                         'ProductID' => $dt->product_id . "," . $dt2->product_id,
                         'ProductName' => $dt->name . "," . $dt2->name,
