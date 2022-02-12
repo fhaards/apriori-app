@@ -447,6 +447,7 @@ class AprioriController extends Controller
     public function testing(Request $request)
     {
         $data = [];
+        $checkCount = null;
         $sumAllTrans = APHELP::sumAllTransaction();
         $sumAlltransF = (float)$sumAllTrans;
 
@@ -456,37 +457,55 @@ class AprioriController extends Controller
             ->groupBy('product_id', 'name')
             ->get();
 
-        foreach ($findData as $dt) {
-            $prd1 = $dt->product_id;
+        $newArr = [];
+        foreach ($findData as $keying => $val) {
+            $prd1    = $val->product_id;
+            $newArr[$keying] = $val;
+        }
+
+        $findData = array_values($newArr);
+        
+        foreach (array_reverse($findData) as $dt) {
             $findData2 = DB::table('transactions_lists as tr')
                 ->join('products as prd', 'tr.product_id', '=', 'prd.id')
-                ->select('product_id', 'name')
+                ->select(DB::raw('count(*) as countings'))
+                ->addSelect('product_id', 'name')
                 ->addSelect(DB::raw('SUM(tr.subtotal_qty) as subqty'))
-                ->whereNotIn('product_id', [$dt->product_id])
-                ->groupBy('product_id', 'name')
-                ->get();
+                ->whereNotIn('product_id', [$prd1])
+                ->groupBy('product_id', 'name');
+            $findDataRes2 = $findData2->get();
+            foreach ($findDataRes2 as $dt2) {
+                if ($dt2->countings > 0) :
+                    $prd2    = $dt2->product_id;
+                    $findData3 = TRSLIST::select(DB::raw('count(*) as countings'))
+                        ->whereIn('product_id', [$prd1, $prd2])
+                        ->groupBy('product_id');
 
-            foreach ($findData2 as $dt2) {
-                $prd2 = $dt2->product_id;
-                $findData3 = TRSLIST::whereIn('product_id', [$prd1, $prd2])->groupBy('product_id');
-                $counts = $findData3->count();
+                    // $findData3 = TRSLIST::whereIn('product_id', [$prd1, $prd2])->groupBy('product_id');
+                    $counts = $findData3->count();
+                    $checkf = $findData3->first();
 
-                $findDataConfidence = TRSLIST::whereIn('product_id', [$prd1])->groupBy('product_id');
-                $countsConfidence = $findDataConfidence->count();
+                    $findDataConfidence = TRSLIST::whereIn('product_id', [$prd1])->groupBy('product_id');
+                    $countsConfidence = $findDataConfidence->count();
 
-                $gsupport = (float)$counts / $sumAlltransF; // TRANSAKSI A,B DIBAGI TOTAL TRANSAKSI
-                $gconfide = (float)$counts / $countsConfidence; // TRANSAKSI A,B DIBAGI TRANSAKSI A
-
-                $data[] = [
-                    'ProductID' => $dt->product_id . "," . $dt2->product_id,
-                    'ProductName' => $dt->name . "," . $dt2->name,
-                    'Count' =>  $counts,
-                    'Support' => number_format((float)$gsupport, 2, '.', ''),
-                    'ConfidenceGet' => $countsConfidence,
-                    'Confidence' => number_format((float)$gconfide, 2, '.', ''),
-                ];
+                    $gsupport = (float)$counts / $sumAlltransF; // TRANSAKSI A,B DIBAGI TOTAL TRANSAKSI
+                    $gconfide = (float)$counts / $countsConfidence; // TRANSAKSI A,B DIBAGI TRANSAKSI A
+                    $data[] = [
+                        'Counttable' => $checkf->countings,
+                        'Counttable' => $prd1 . " --- " . $prd2,
+                        'ProductID' => $dt->product_id . "," . $dt2->product_id,
+                        'ProductName' => $dt->name . "," . $dt2->name,
+                        'Count' =>  $counts,
+                        'Support' => number_format((float)$gsupport, 2, '.', ''),
+                        'ConfidenceGet' => $countsConfidence,
+                        'Confidence' => number_format((float)$gconfide, 2, '.', ''),
+                    ];
+                endif;
             }
         }
+
+
+
 
         echo json_encode($data);
     }
@@ -503,23 +522,28 @@ class AprioriController extends Controller
             ->groupBy('product_id', 'name')
             ->get();
 
-        foreach ($findData as $dt) {
+        foreach ($findData as $key => $dt) {
             $prd1 = $dt->product_id;
+            $prd1s[$key] = $dt->product_id;
             $findData2 = DB::table('transactions_lists as tr')
                 ->join('products as prd', 'tr.product_id', '=', 'prd.id')
                 ->select('product_id', 'name')
                 ->whereNotIn('product_id', [$prd1])
                 ->groupBy('product_id', 'name')
                 ->get();
-            foreach ($findData2 as $dt2) {
+            foreach ($findData2 as $key2 => $dt2) {
                 $prd2 = $dt2->product_id;
+                $prd2s[$key2] = $dt2->product_id;
                 $findData3 = DB::table('transactions_lists as tr')
                     ->join('products as prd', 'tr.product_id', '=', 'prd.id')
-                    ->select('product_id', 'name')
+                    ->select(DB::raw('product_id,name'))
                     ->addSelect(DB::raw('SUM(tr.subtotal_qty) as subqty'))
-                    ->whereNotIn('product_id', [$prd1, $prd2])
+                    ->whereNotIn('product_id', [$prd1])
+                    ->whereNotIn('product_id', [$prd2])
                     ->groupBy('product_id', 'name')
                     ->get();
+
+                // $test = array_map("unserialize", array_unique(array_map("serialize", $findData3)));
                 foreach ($findData3 as $dt3) {
                     $prd3 = $dt3->product_id;
 
